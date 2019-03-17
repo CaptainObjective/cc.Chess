@@ -7,10 +7,12 @@ const touched = (e) => {
         return
     }
     const possibleMoves = board[x][y].findLegalMoves();
+    //console.log(possibleMoves);
     for (let el of possibleMoves) {
         document.getElementById(el).className += ` possibleMove`;
         document.getElementById(el).addEventListener('click', (e) => {
-            board[x][y].move(e.currentTarget.id)
+            board[e.currentTarget.id[0]][e.currentTarget.id[2]] = board[x][y]; //przypisuje do wybranego pola naszego "przesuwanego" pionka
+            board[x][y].move(e.currentTarget.id) //metoda "move" zmienia display pola i usuwa obiekt pionka z tablicy "board"
             for (let x = 0; x < board.length; x++) {
                 for (let y = 0; y < board[x].length; y++) {
                     document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, '');
@@ -21,6 +23,7 @@ const touched = (e) => {
                     old_element.parentNode.replaceChild(new_element, old_element);
 
                     // document.getElementById(`${x},${y}`).removeEventListener('click');
+        
                     document.getElementById(`${x},${y}`).addEventListener('click', (e) => { touched(e) });
                 }
             }
