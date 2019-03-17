@@ -1,4 +1,5 @@
-import Pawn from './pieces/pawn'
+import Pawn from './pieces/pawn';
+import King from './pieces/king';
 
 const board = new Array(8);
 for (let i = 0; i < 8; i++) {
@@ -9,5 +10,10 @@ let pawn = new Pawn(6, 0, 'white');
 board[pawn.x][pawn.y] = pawn;
 pawn = new Pawn(6, 1, 'white');
 board[pawn.x][pawn.y] = pawn;
+
+let king = new King(7, 4, 'white');
+board[king.x][king.y] = king;
+king = new King(0, 4, 'black');
+board[king.x][king.y] = king;
 
 export default board;
