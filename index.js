@@ -497,7 +497,7 @@ eval("\n\nvar anObject = __webpack_require__(/*! ./_an-object */ \"./node_module
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/pawn */ \"./src/pieces/pawn.js\");\n\nconst board = new Array(8);\n\nfor (let i = 0; i < 8; i++) {\n  board[i] = new Array(8);\n} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka\n\n\nlet pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 0, 'white');\nboard[pawn.x][pawn.y] = pawn;\npawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 1, 'white');\nboard[pawn.x][pawn.y] = pawn;\n/* harmony default export */ __webpack_exports__[\"default\"] = (board);\n\n//# sourceURL=webpack:///./src/board.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/pawn */ \"./src/pieces/pawn.js\");\n/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pieces/king */ \"./src/pieces/king.js\");\n\n\nconst board = new Array(8);\n\nfor (let i = 0; i < 8; i++) {\n  board[i] = new Array(8);\n} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka\n\n\nlet pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 0, 'white');\nboard[pawn.x][pawn.y] = pawn;\npawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 1, 'white');\nboard[pawn.x][pawn.y] = pawn;\nlet king = new _pieces_king__WEBPACK_IMPORTED_MODULE_1__[\"default\"](7, 4, 'white');\nboard[king.x][king.y] = king;\nking = new _pieces_king__WEBPACK_IMPORTED_MODULE_1__[\"default\"](0, 4, 'black');\nboard[king.x][king.y] = king;\n/* harmony default export */ __webpack_exports__[\"default\"] = (board);\n\n//# sourceURL=webpack:///./src/board.js?");
 
 /***/ }),
 
@@ -522,6 +522,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _set
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../board */ \"./src/board.js\");\n\n\nclass Piece {\n  constructor(x, y, side) {\n    this.x = x;\n    this.y = y;\n    this.side = side; //'black' or 'white'\n  }\n\n  move(id) {\n    const newX = id[0];\n    const newY = id[2]; //clearing previous place\n\n    _board__WEBPACK_IMPORTED_MODULE_0__[\"default\"][this.x][this.y] = null;\n    document.getElementById(`${this.x},${this.y}`).innerHTML = \"\"; //setting new\n\n    this.x = newX;\n    this.y = newY;\n    document.getElementById(id).innerHTML = this.display;\n  }\n\n  findLegalMoves() {\n    ;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Piece);\n\n//# sourceURL=webpack:///./src/pieces/Piece.js?");
+
+/***/ }),
+
+/***/ "./src/pieces/king.js":
+/*!****************************!*\
+  !*** ./src/pieces/king.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass King extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'king';\n    this.display = `<i class=\"fas fa-chess-king ${side}\"></i>`; //fontawesome king\n  }\n\n  findLegalMoves() {\n    const possibleMoves = [];\n\n    if (this.side == 'white') {\n      this.x - 1 > 0 && possibleMoves.push(`${this.x - 1},${this.y}`);\n      this.x + 1 > 0 && possibleMoves.push(`${this.x + 1},${this.y}`);\n      this.y - 1 > 0 && possibleMoves.push(`${this.x},${this.y - 1}`);\n      this.y + 1 > 0 && possibleMoves.push(`${this.x},${this.y + 1}`);\n    } else {\n      this.x - 1 > 0 && possibleMoves.push(`${this.x - 1},${this.y}`);\n      this.x + 1 > 0 && possibleMoves.push(`${this.x + 1},${this.y}`);\n      this.y - 1 > 0 && possibleMoves.push(`${this.x},${this.y - 1}`);\n      this.y + 1 > 0 && possibleMoves.push(`${this.x},${this.y + 1}`);\n    }\n\n    return possibleMoves;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (King);\n\n//# sourceURL=webpack:///./src/pieces/king.js?");
 
 /***/ }),
 
