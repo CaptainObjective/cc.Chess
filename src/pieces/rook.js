@@ -19,7 +19,7 @@ class Rook extends Piece {
             if (el[0] == [this.x] && el[1] == [this.y]) {
                 console.log(possibleMoves.indexOf(el))
                 possibleMoves.splice((possibleMoves.indexOf(el)), 1)
-                // W jakiś sposób naprawić wierze na h8
+                // W jakiś sposób naprawić wieżę na h8
             }
         })
 
