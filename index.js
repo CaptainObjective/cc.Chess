@@ -497,7 +497,7 @@ eval("\n\nvar anObject = __webpack_require__(/*! ./_an-object */ \"./node_module
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/pawn */ \"./src/pieces/pawn.js\");\n\nconst board = new Array(8);\n\nfor (let i = 0; i < 8; i++) {\n  board[i] = new Array(8);\n} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka\n\n\nlet pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 0, 'white');\nboard[pawn.x][pawn.y] = pawn;\npawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 1, 'white');\nboard[pawn.x][pawn.y] = pawn;\n/* harmony default export */ __webpack_exports__[\"default\"] = (board);\n\n//# sourceURL=webpack:///./src/board.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/pawn */ \"./src/pieces/pawn.js\");\n/* harmony import */ var _pieces_queen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pieces/queen */ \"./src/pieces/queen.js\");\n\n\nconst board = new Array(8);\n\nfor (let i = 0; i < 8; i++) {\n  board[i] = new Array(8);\n} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka\n\n\nlet pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 0, 'white');\nboard[pawn.x][pawn.y] = pawn;\npawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__[\"default\"](6, 1, 'white');\nboard[pawn.x][pawn.y] = pawn;\nlet queen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_1__[\"default\"](7, 3, 'white');\nboard[queen.x][queen.y] = queen;\nqueen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_1__[\"default\"](0, 3, 'black');\nboard[queen.x][queen.y] = queen;\n/* harmony default export */ __webpack_exports__[\"default\"] = (board);\n\n//# sourceURL=webpack:///./src/board.js?");
 
 /***/ }),
 
@@ -534,6 +534,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _boa
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'pawn';\n    this.display = `<i class=\"fas fa-chess-pawn ${side}\"></i>`;\n  }\n\n  findLegalMoves() {\n    // console.log(this.x, this.y)\n    const possibleMoves = [];\n\n    if (this.side == 'white') {\n      this.x - 1 > 0 && possibleMoves.push(`${this.x - 1},${this.y}`);\n      this.x - 2 > 0 && possibleMoves.push(`${this.x - 2},${this.y}`);\n    }\n\n    return possibleMoves;\n  }\n\n  promote() {}\n\n  enPassant() {}\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Pawn);\n\n//# sourceURL=webpack:///./src/pieces/pawn.js?");
+
+/***/ }),
+
+/***/ "./src/pieces/queen.js":
+/*!*****************************!*\
+  !*** ./src/pieces/queen.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass Queen extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'queen';\n    this.display = `<i class=\"fas fa-chess-queen ${side}\"></i>`; //fontawesome queen\n  }\n\n  findLegalMoves() {\n    const possibleMoves = [];\n    return possibleMoves;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Queen);\n\n//# sourceURL=webpack:///./src/pieces/queen.js?");
 
 /***/ }),
 
