@@ -34,16 +34,16 @@ board[rook.x][rook.y] = rook;
 rook = new Rook(0, 7, 'black');
 board[rook.x][rook.y] = rook;
 
-let bishop = new Bishop(0, 1, 'black');
+let bishop = new Bishop(0, 2, 'black');
 board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(0, 6, 'black');
+bishop = new Bishop(0, 5, 'black');
 board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(7, 1, 'white');
+bishop = new Bishop(7, 2, 'white');
 board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(7, 6, 'white');
+bishop = new Bishop(7, 5, 'white');
 board[bishop.x][bishop.y] = bishop;
 
 let queen = new Queen(7, 3, 'white');
