@@ -16,7 +16,7 @@ pawn = new Pawn(6, 1, 'white');
 board[pawn.x][pawn.y] = pawn;*/
 
 let pawn;
-for(let y = 0; y < 8; y++){
+for (let y = 0; y < 8; y++) {
     pawn = new Pawn(1, y, 'black');
     board[pawn.x][pawn.y] = pawn;
 }
@@ -29,25 +29,32 @@ let rook = new Rook(7, 0, 'white');
 board[rook.x][rook.y] = rook;
 rook = new Rook(7, 7, 'white');
 board[rook.x][rook.y] = rook;
-rook = new Rook(0, 1, 'black');
+rook = new Rook(0, 0, 'black');
 board[rook.x][rook.y] = rook;
 rook = new Rook(0, 7, 'black');
 board[rook.x][rook.y] = rook;
 
-let bishop = new Bishop(0,1, 'black');
-board[bishop.x][bishop.y]=bishop;
+let bishop = new Bishop(0, 1, 'black');
+board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(0,6, 'black');
-board[bishop.x][bishop.y]=bishop;
+bishop = new Bishop(0, 6, 'black');
+board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(7,1, 'white');
-board[bishop.x][bishop.y]=bishop;
+bishop = new Bishop(7, 1, 'white');
+board[bishop.x][bishop.y] = bishop;
 
-bishop = new Bishop(7,6, 'white');
-board[bishop.x][bishop.y]=bishop;
+bishop = new Bishop(7, 6, 'white');
+board[bishop.x][bishop.y] = bishop;
 
 let queen = new Queen(7, 3, 'white');
 board[queen.x][queen.y] = queen;
 queen = new Queen(0, 3, 'black');
 board[queen.x][queen.y] = queen;
+
+let king = new King(7, 4, 'white');
+board[king.x][king.y] = king;
+king = new King(0, 4, 'black');
+board[king.x][king.y] = king;
+
+
 export default board;
