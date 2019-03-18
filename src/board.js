@@ -3,7 +3,7 @@ import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import Bishop from './pieces/bishop';
 import Queen from './pieces/queen';
-
+import Knight from './pieces/knight';
 
 const board = new Array(8);
 for (let i = 0; i < 8; i++) {
