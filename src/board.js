@@ -36,6 +36,10 @@ board[rook.x][rook.y] = rook;
 
 let bishop = new Bishop(0, 2, 'black');
 board[bishop.x][bishop.y] = bishop;
+let knight = new Knight(7, 1, 'white');
+board[knight.x][knight.y] = knight;
+knight = new Knight(7, 6, 'white');
+board[knight.x][knight.y] = knight;
 
 bishop = new Bishop(0, 5, 'black');
 board[bishop.x][bishop.y] = bishop;
@@ -56,5 +60,10 @@ board[king.x][king.y] = king;
 king = new King(0, 4, 'black');
 board[king.x][king.y] = king;
 
+
+knight = new Knight(0, 1, 'black');
+board[knight.x][knight.y] = knight;
+knight = new Knight(0, 6, 'black');
+board[knight.x][knight.y] = knight;
 
 export default board;
