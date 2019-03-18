@@ -26,6 +26,7 @@ const touched = (e) => {
             }
         })
     }
+    console.log(possibleMoves)
 
 }
 
