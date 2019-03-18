@@ -2,6 +2,7 @@ import Rook from './pieces/rook';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import Bishop from './pieces/bishop';
+import Queen from './pieces/queen';
 
 
 const board = new Array(8);
@@ -45,4 +46,8 @@ board[bishop.x][bishop.y]=bishop;
 bishop = new Bishop(7,6, 'white');
 board[bishop.x][bishop.y]=bishop;
 
+let queen = new Queen(7, 3, 'white');
+board[queen.x][queen.y] = queen;
+queen = new Queen(0, 3, 'black');
+board[queen.x][queen.y] = queen;
 export default board;
