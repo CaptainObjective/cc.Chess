@@ -10,6 +10,9 @@ class Piece {
         const newX = id[0];
         const newY = id[2];
 
+        //setting new in new place
+        board[newX][newY] = board[this.x][this.y];
+
         //clearing previous place
         board[this.x][this.y] = null;
         document.getElementById(`${this.x},${this.y}`).innerHTML = "";
