@@ -494,10 +494,9 @@ eval("\n\nvar anObject = __webpack_require__(/*! ./_an-object */ \"./node_module
   !*** ./src/board.js ***!
   \**********************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pieces_rook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/rook */ \"./src/pieces/rook.js\");\n/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pieces/pawn */ \"./src/pieces/pawn.js\");\n/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pieces/king */ \"./src/pieces/king.js\");\n/* harmony import */ var _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pieces/bishop */ \"./src/pieces/bishop.js\");\n\n\n\n\nconst board = new Array(8);\n\nfor (let i = 0; i < 8; i++) {\n  board[i] = new Array(8);\n} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka\n\n/*let pawn = new Pawn(6, 0, 'white');\r\nboard[pawn.x][pawn.y] = pawn;\r\npawn = new Pawn(6, 1, 'white');\r\nboard[pawn.x][pawn.y] = pawn;*/\n\n\nlet pawn;\n\nfor (let y = 0; y < 8; y++) {\n  pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__[\"default\"](1, y, 'black');\n  board[pawn.x][pawn.y] = pawn;\n}\n\nfor (let y = 0; y < 8; y++) {\n  pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__[\"default\"](6, y, 'white');\n  board[pawn.x][pawn.y] = pawn;\n}\n\nlet rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__[\"default\"](7, 0, 'white');\nboard[rook.x][rook.y] = rook;\nrook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__[\"default\"](7, 7, 'white');\nboard[rook.x][rook.y] = rook;\nrook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__[\"default\"](0, 1, 'black');\nboard[rook.x][rook.y] = rook;\nrook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__[\"default\"](0, 7, 'black');\nboard[rook.x][rook.y] = rook;\nlet bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__[\"default\"](0, 1, 'black');\nboard[bishop.x][bishop.y] = bishop;\nbishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__[\"default\"](0, 6, 'black');\nboard[bishop.x][bishop.y] = bishop;\nbishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__[\"default\"](7, 1, 'white');\nboard[bishop.x][bishop.y] = bishop;\nbishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__[\"default\"](7, 6, 'white');\nboard[bishop.x][bishop.y] = bishop;\n/* harmony default export */ __webpack_exports__[\"default\"] = (board);\n\n//# sourceURL=webpack:///./src/board.js?");
+eval("throw new Error(\"Module build failed (from ./node_modules/babel-loader/lib/index.js):\\nSyntaxError: C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\src\\\\board.js: Unexpected token (1:0)\\n\\n\\u001b[0m\\u001b[31m\\u001b[1m>\\u001b[22m\\u001b[39m\\u001b[90m 1 | \\u001b[39m\\u001b[33m<<\\u001b[39m\\u001b[33m<<\\u001b[39m\\u001b[33m<<\\u001b[39m\\u001b[33m<\\u001b[39m \\u001b[33mHEAD\\u001b[39m\\u001b[0m\\n\\u001b[0m \\u001b[90m   | \\u001b[39m\\u001b[31m\\u001b[1m^\\u001b[22m\\u001b[39m\\u001b[0m\\n\\u001b[0m \\u001b[90m 2 | \\u001b[39m\\u001b[36mimport\\u001b[39m \\u001b[33mRook\\u001b[39m from \\u001b[32m'./pieces/rook'\\u001b[39m\\u001b[33m;\\u001b[39m\\u001b[0m\\n\\u001b[0m \\u001b[90m 3 | \\u001b[39m\\u001b[36mimport\\u001b[39m \\u001b[33mPawn\\u001b[39m from \\u001b[32m'./pieces/pawn'\\u001b[39m\\u001b[33m;\\u001b[39m\\u001b[0m\\n\\u001b[0m \\u001b[90m 4 | \\u001b[39m\\u001b[36mimport\\u001b[39m \\u001b[33mKing\\u001b[39m from \\u001b[32m'./pieces/king'\\u001b[39m\\u001b[33m;\\u001b[39m\\u001b[0m\\n    at Parser.raise (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:3831:17)\\n    at Parser.unexpected (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5143:16)\\n    at Parser.parseExprAtom (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:6283:20)\\n    at Parser.parseExprSubscripts (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5862:23)\\n    at Parser.parseMaybeUnary (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5842:21)\\n    at Parser.parseExprOps (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5729:23)\\n    at Parser.parseMaybeConditional (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5702:23)\\n    at Parser.parseMaybeAssign (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5647:21)\\n    at Parser.parseExpression (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:5595:23)\\n    at Parser.parseStatementContent (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:7378:23)\\n    at Parser.parseStatement (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:7243:17)\\n    at Parser.parseBlockOrModuleBlockBody (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:7810:25)\\n    at Parser.parseBlockBody (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:7797:10)\\n    at Parser.parseTopLevel (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:7181:10)\\n    at Parser.parse (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:8660:17)\\n    at parse (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\parser\\\\lib\\\\index.js:10660:38)\\n    at parser (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\core\\\\lib\\\\transformation\\\\normalize-file.js:170:34)\\n    at normalizeFile (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\core\\\\lib\\\\transformation\\\\normalize-file.js:138:11)\\n    at runSync (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\core\\\\lib\\\\transformation\\\\index.js:44:43)\\n    at runAsync (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\core\\\\lib\\\\transformation\\\\index.js:35:14)\\n    at process.nextTick (C:\\\\Users\\\\marci\\\\Desktop\\\\coderscamp ment\\\\cc.Chess\\\\node_modules\\\\@babel\\\\core\\\\lib\\\\transform.js:34:34)\\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\\n    at process._tickCallback (internal/process/next_tick.js:180:9)\");\n\n//# sourceURL=webpack:///./src/board.js?");
 
 /***/ }),
 
@@ -510,66 +509,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pie
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setup */ \"./src/setup.js\");\n //checkWinner();\n//changePlayer(); to wszystko na później\n\nwindow.onload = _setup__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n\n//# sourceURL=webpack:///./src/main.js?");
-
-/***/ }),
-
-/***/ "./src/pieces/Piece.js":
-/*!*****************************!*\
-  !*** ./src/pieces/Piece.js ***!
-  \*****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../board */ \"./src/board.js\");\n\n\nclass Piece {\n  constructor(x, y, side) {\n    this.x = x;\n    this.y = y;\n    this.side = side; //'black' or 'white'\n  }\n\n  move(id) {\n    const newX = id[0];\n    const newY = id[2]; //clearing previous place\n\n    _board__WEBPACK_IMPORTED_MODULE_0__[\"default\"][this.x][this.y] = null;\n    document.getElementById(`${this.x},${this.y}`).innerHTML = \"\"; //setting new\n\n    this.x = newX;\n    this.y = newY;\n    document.getElementById(id).innerHTML = this.display;\n  }\n\n  findLegalMoves() {\n    ;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Piece);\n\n//# sourceURL=webpack:///./src/pieces/Piece.js?");
-
-/***/ }),
-
-/***/ "./src/pieces/bishop.js":
-/*!******************************!*\
-  !*** ./src/pieces/bishop.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass Bishop extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'bishop';\n    this.display = `<i class=\"fas fa-chess-bishop ${side}\"></i>`; //fontawesome bishop\n  }\n\n  findLegalMoves() {\n    const possibleMoves = [];\n    let dx = [-1, -1, 1, 1];\n    let dy = [-1, 1, -1, 1];\n\n    for (let direction = 0; direction < 4; direction++) {\n      for (let counter = 1; counter < 8; counter++) {\n        let newX = this.x + dx[direction] * counter;\n        let newY = this.y + dy[direction] * counter;\n\n        if (0 <= newX && newX < 8 && 0 <= newY && newY < 8) {\n          possibleMoves.push(`${newX},${newY}`);\n        }\n      }\n    }\n\n    return possibleMoves;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Bishop);\n\n//# sourceURL=webpack:///./src/pieces/bishop.js?");
-
-/***/ }),
-
-/***/ "./src/pieces/king.js":
-/*!****************************!*\
-  !*** ./src/pieces/king.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass King extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'king';\n    this.display = `<i class=\"fas fa-chess-king ${side}\"></i>`; //fontawesome king\n  }\n\n  findLegalMoves() {\n    const possibleMoves = [];\n    /* tablica z zakresem dozwolonych ruchów - dla osi X i Y */\n\n    const ruchyXY = [[-1, -1, -1, 0, 1, 1, 1, 0], [-1, 0, 1, 1, 1, 0, -1, -1]];\n\n    for (let direction = 0; direction < 8; direction++) {\n      let newX = this.x + ruchyXY[0][direction];\n      let newY = this.y + ruchyXY[1][direction];\n\n      if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {\n        possibleMoves.push(`${newX},${newY}`);\n      }\n    }\n    /*\r\n    if (this.x >= 0 && this.y >= 0 && this.x =< 7 && this.y =< 7) {\r\n        possibleMoves.push(`${this.x},${this.y - 1}`);\r\n        possibleMoves.push(`${this.x},${this.y + 1}`);\r\n        possibleMoves.push(`${this.x - 1},${this.y}`);\r\n        possibleMoves.push(`${this.x + 1},${this.y}`);\r\n        possibleMoves.push(`${this.x - 1},${this.y - 1}`);\r\n        possibleMoves.push(`${this.x + 1},${this.y - 1}`);\r\n        possibleMoves.push(`${this.x - 1},${this.y + 1}`);\r\n        possibleMoves.push(`${this.x + 1},${this.y + 1}`);\r\n    } TEN KOD NIE DZIAŁA, biała bierka za każdym razem się rozpieprza i wyrzuca błąd o klasie null*/\n\n\n    return possibleMoves;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (King);\n\n//# sourceURL=webpack:///./src/pieces/king.js?");
-
-/***/ }),
-
-/***/ "./src/pieces/pawn.js":
-/*!****************************!*\
-  !*** ./src/pieces/pawn.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n\n\nclass Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'pawn';\n    this.display = `<i class=\"fas fa-chess-pawn ${side}\"></i>`;\n  }\n\n  findLegalMoves() {\n    // console.log(this.x, this.y)\n    const possibleMoves = [];\n\n    if (this.side == 'white') {\n      this.x - 1 > 0 && possibleMoves.push(`${this.x - 1},${this.y}`);\n      this.x - 2 > 0 && possibleMoves.push(`${this.x - 2},${this.y}`);\n    }\n\n    return possibleMoves;\n  }\n\n  promote() {}\n\n  enPassant() {}\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Pawn);\n\n//# sourceURL=webpack:///./src/pieces/pawn.js?");
-
-/***/ }),
-
-/***/ "./src/pieces/rook.js":
-/*!****************************!*\
-  !*** ./src/pieces/rook.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ \"./src/pieces/Piece.js\");\n/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ \"./src/board.js\");\n\n\n\nclass Rook extends _Piece__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n  constructor(x, y, side) {\n    super(x, y, side);\n    this.name = 'rook';\n    this.display = `<i class=\"fas fa-chess-rook ${side}\"></i>`; //fontawesome rook\n  }\n\n  findLegalMoves() {\n    const possibleMoves = [];\n\n    for (let i = 0; i < _board__WEBPACK_IMPORTED_MODULE_1__[\"default\"].length; i++) {\n      possibleMoves[i] = [this.x, i];\n      possibleMoves[i + _board__WEBPACK_IMPORTED_MODULE_1__[\"default\"].length] = [i, this.y];\n    }\n\n    possibleMoves.forEach(el => {\n      console.log(el);\n\n      if (el[0] == [this.x] && el[1] == [this.y]) {\n        console.log(possibleMoves.indexOf(el));\n        possibleMoves.splice(possibleMoves.indexOf(el), 1); // W jakiś sposób naprawić wieżę na h8\n      }\n    });\n    console.log(possibleMoves);\n    return possibleMoves;\n  }\n\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Rook);\n\n//# sourceURL=webpack:///./src/pieces/rook.js?");
 
 /***/ }),
 
