@@ -2,30 +2,94 @@ import Piece from './Piece';
 import board from '../board';
 
 class Rook extends Piece {
-    constructor(x, y, side) {
-        super(x, y, side);
-        this.name = 'rook';
-        this.display = `<i class="fas fa-chess-rook ${side}"></i>`; //fontawesome rook
-    }
-    findLegalMoves() {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'rook';
+    this.display = `<i class="fas fa-chess-rook ${side}"></i>`; //fontawesome rook
+  }
+  findLegalMoves() {
 
-        const possibleMoves = [];
-        for (let i = 0; i < board.length; i++) {
-            possibleMoves[i] = [this.x, i];
-            possibleMoves[i + board.length] = [i, this.y]
+    let possibleMoves = [];
+    for (let i = 0; i < board.length; i++) {
+      possibleMoves[i] = [this.x, i];
+      possibleMoves[i + board.length] = [i, this.y]
+    }
+    possibleMoves.forEach(el => {
+      if (el[0] == [this.x] && el[1] == [this.y]) {
+        delete possibleMoves[possibleMoves.indexOf(el)];
+      }
+    })
+
+    //Tworzę tablice, które zawierają położenie białych i czarnych figur na szachownicy.
+    const blackFigure = [];
+    const whiteFigure = [];
+    for (let x = 0; x < board.length; x++) {
+      blackFigure[x] = [];
+      whiteFigure[x] = [];
+
+      for (let y = 0; y < board[x].length; y++) {
+        if (board[x][y] && board[x][y].side == "black") {
+          blackFigure[x][y] = [];
+          blackFigure[x][y][0] = board[x][y].x;
+          blackFigure[x][y][1] = board[x][y].y;
+          blackFigure[x][y][2] = "black"
         }
-        possibleMoves.forEach(el => {
-            console.log(el)
-            if (el[0] == [this.x] && el[1] == [this.y]) {
-                console.log(possibleMoves.indexOf(el))
-                possibleMoves.splice((possibleMoves.indexOf(el)), 1)
-                // W jakiś sposób naprawić wieżę na h8
-            }
-        })
-
-        console.log(possibleMoves);
-        return possibleMoves;
+        if (board[x][y] && board[x][y].side == "white") {
+          whiteFigure[x][y] = [];
+          whiteFigure[x][y][0] = board[x][y].x
+          whiteFigure[x][y][1] = board[x][y].y
+          whiteFigure[x][y][2] = "white"
+        }
+      }
     }
+
+    const imposibleMoves = [];
+    //Wyszukuję pola, na których znajdują się białe figury
+    if (this.side == "white") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < whiteFigure.length; a++) {
+          for (let b = 0; b < whiteFigure[a].length; b++) {
+            if (whiteFigure[a][b]) {
+              for (let c = 0; c < whiteFigure[a][b].length; c++) {
+                if (el[0] == whiteFigure[a][b][0] && el[1] == whiteFigure[a][b][1] && whiteFigure[a][b][2] == "white") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    // Wyszukuję pola, na których znajdują się czarne figury
+    if (this.side == "black") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < blackFigure.length; a++) {
+          for (let b = 0; b < blackFigure[a].length; b++) {
+            if (blackFigure[a][b]) {
+              for (let c = 0; c < blackFigure[a][b].length; c++) {
+                if (el[0] == blackFigure[a][b][0] && el[1] == blackFigure[a][b][1] && blackFigure[a][b][2] == "black") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury.
+    possibleMoves.forEach(el => {
+      imposibleMoves.forEach(move => {
+
+        if (el == move) {
+          delete possibleMoves[possibleMoves.indexOf(el)];
+        }
+      })
+    })
+
+    possibleMoves = possibleMoves.filter(el => el)
+
+    return possibleMoves;
+  }
 }
 
 export default Rook;
