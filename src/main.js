@@ -1,7 +1,5 @@
 import setup from './setup'
 import board from './board';
-import touched from './touched'
-// import Piece from './pieces/Piece';
 
 //checkWinner();
 
@@ -17,14 +15,14 @@ const getCord = (e) => {
     }
 }
 
-const possibleMoves = (piece) => {
+const possibleMoves = () => {
     // console.log(piece.findLegalMoves());
-    for (let posmov of piece.findLegalMoves()) {
+    for (let posmov of pieceElement.findLegalMoves()) {
         document.getElementById(posmov).className += ' possibleMove';
     }
 }
-const moved = (piece, cord) => {
-    piece.move(cord)
+const moved = (cord) => {
+    pieceElement.move(cord)
     for (let x = 0; x < board.length; x++) {
         for (let y = 0; y < board[x].length; y++) {
             document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, '');
@@ -45,7 +43,7 @@ chessBoard.addEventListener('click', (e) => {
             console.log(squareCords.toString());
             console.log(pieceElement.findLegalMoves())
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
-                moved(pieceElement, squareCords);
+                moved(squareCords);
                 pieceElement = false;
                 console.log('Ruszam');
             } else {
@@ -58,7 +56,7 @@ chessBoard.addEventListener('click', (e) => {
             console.log('zaznaczam bierka')
             // touched(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
-            possibleMoves(pieceElement);
+            possibleMoves();
         } else { //jesli na polu brak bierka
             console.log('na tym polu nie ma bierka')
             return;
