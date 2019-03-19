@@ -22,19 +22,26 @@ class Queen extends Piece {
          })
 
         //movement bishop
-         let dx = [-1, -1, 1, 1];
-         let dy = [-1, 1, -1, 1];
+         const dx = [-1, -1, 1, 1];
+         const dy = [-1, 1, -1, 1]
 
          for (let direction = 0; direction < 4; direction++) {
              for (let counter = 1; counter < 8; counter++) {
-                 let newX = this.x + dx[direction] * counter;
-                 let newY = this.y + dy[direction] * counter;
+                 let newX = parseInt(this.x) + (dx[direction] * counter);
+                 let newY = parseInt(this.y) + dy[direction] * counter;
                  if (0 <= newX && newX < 8 && 0 <= newY && newY < 8) {
-                     //unify display
-                     possibleMoves.push([newX,newY]);
-                     //used to be: possibleMoves.push(`${newX},${newY}`);
+                     if (board[newX][newY] != null) {
+                         if (board[newX][newY].side != this.side) {
+                             possibleMoves.push(`${newX},${newY}`);
+                         }
+                         break;
+                     } else {
+                         possibleMoves.push(`${newX},${newY}`);
+                        
+                     }
                  }
              }
+
          }
          console.log(possibleMoves);
         return possibleMoves;
