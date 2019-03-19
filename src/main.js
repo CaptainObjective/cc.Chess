@@ -16,10 +16,11 @@ const getCord = (e) => {
 }
 
 const possibleMoves = () => {
-    // console.log(piece.findLegalMoves());
+    //console.log('LEGITNE: '+ pieceElement.findLegalMoves());
     for (let posmov of pieceElement.findLegalMoves()) {
         document.getElementById(posmov).className += ' possibleMove';
     }
+    return pieceElement.findLegalMoves() == '' ? false : true;
 }
 const moved = (cord) => {
     pieceElement.move(cord)
@@ -56,7 +57,9 @@ chessBoard.addEventListener('click', (e) => {
             console.log('zaznaczam bierka')
             // touched(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
-            possibleMoves();
+            if(!possibleMoves()){
+                pieceElement = false;
+            }
         } else { //jesli na polu brak bierka
             console.log('na tym polu nie ma bierka')
             return;
