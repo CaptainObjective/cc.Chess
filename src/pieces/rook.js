@@ -79,7 +79,19 @@ class Rook extends Piece {
     //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury.
     possibleMoves.forEach(el => {
       imposibleMoves.forEach(move => {
-
+        if (el[1] == move[1]) {
+          possibleMoves.forEach(i => {
+            if (i[1] == move[1] && i[0] < this.x && i[0] < move[0] && move[0] < this.x || i[1] == move[1] && i[0] > this.x && i[0] > move[0] && move[0] > this.x) {
+              delete possibleMoves[possibleMoves.indexOf(i)]
+            }
+          })
+        } else if (el[0] == move[0]) {
+          possibleMoves.forEach(i => {
+            if (i[0] == move[0] && i[1] < this.y && i[1] < move[1] && move[1] < this.y || i[0] == move[0] && i[1] > this.y && i[1] > move[1] && move[1] > this.y) {
+              delete possibleMoves[possibleMoves.indexOf(i)]
+            }
+          })
+        }
         if (el == move) {
           delete possibleMoves[possibleMoves.indexOf(el)];
         }
@@ -87,7 +99,7 @@ class Rook extends Piece {
     })
 
     possibleMoves = possibleMoves.filter(el => el)
-
+    console.log(possibleMoves);
     return possibleMoves;
   }
 }
