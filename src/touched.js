@@ -21,12 +21,14 @@ const touched = (e) => {
                     old_element.parentNode.replaceChild(new_element, old_element);
 
                     // document.getElementById(`${x},${y}`).removeEventListener('click');
-                    document.getElementById(`${x},${y}`).addEventListener('click', (e) => { touched(e) });
+                    document.getElementById(`${x},${y}`).addEventListener('click', (e) => {
+                        touched(e)
+                    });
                 }
             }
         })
     }
-    console.log(possibleMoves)
+    // console.log(possibleMoves)
 
 }
 
