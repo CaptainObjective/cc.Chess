@@ -133,6 +133,7 @@ class Queen extends Piece {
             }
         }
         possibleMoves = possibleMoves.filter(el => el);
+        possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
 
         //movement bishop
         const dx = [-1, -1, 1, 1];
@@ -154,8 +155,8 @@ class Queen extends Piece {
                 }
             }
         }
+
         console.log(possibleMoves);
-        possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
         return possibleMoves;
     }
 }
