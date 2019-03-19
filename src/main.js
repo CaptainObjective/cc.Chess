@@ -24,6 +24,10 @@ const possibleMoves = () => {
 }
 const moved = (cord) => {
     pieceElement.move(cord)
+    clearMoves(cord);
+}
+
+const clearMoves = (cord) => {
     for (let x = 0; x < board.length; x++) {
         for (let y = 0; y < board[x].length; y++) {
             document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, '');
@@ -39,19 +43,19 @@ chessBoard.addEventListener('click', (e) => {
     if (pieceElement) { //jeśli bierek zaznaczony
         if ((squareCords[0] == pieceElement.x) && (squareCords[1] == pieceElement.y)) {
             console.log('To samo pole');
-            return;
+            clearMoves(squareCords);
         } else {
             console.log(squareCords.toString());
             console.log(pieceElement.findLegalMoves())
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
                 moved(squareCords);
-                pieceElement = false;
                 console.log('Ruszam');
             } else {
                 console.log('Nie Ruszam');
-                return;
+                clearMoves(squareCords);
             }
         }
+    pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]]) { // jesli na polu bierek
             console.log('zaznaczam bierka')
