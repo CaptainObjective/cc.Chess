@@ -60,6 +60,7 @@ class Rook extends Piece {
         }
       })
     }
+
     // Wyszukuję pola, na których znajdują się czarne figury
     if (this.side == "black") {
       possibleMoves.forEach(el => {
@@ -76,7 +77,8 @@ class Rook extends Piece {
         }
       })
     }
-    //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury.
+
+    //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury oraz wyłączenie możliwości przeskakiwania ich.
     possibleMoves.forEach(el => {
       imposibleMoves.forEach(move => {
         if (el[1] == move[1]) {
@@ -98,8 +100,40 @@ class Rook extends Piece {
       })
     })
 
-    possibleMoves = possibleMoves.filter(el => el)
-    console.log(possibleMoves);
+    //Usunięcie możliwości przeskakiwania figur przeciwnika
+    if (this.side == "white") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < blackFigure.length; j++) {
+          for (let k = 0; k < blackFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (blackFigure[j][k]) {
+                if (possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] < blackFigure[j][k][0] && possibleMoves[i][0] < this.x && blackFigure[j][k][0] < this.x || possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] > blackFigure[j][k][0] && possibleMoves[i][0] > this.x && blackFigure[j][k][0] > this.x || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] > blackFigure[j][k][1] && possibleMoves[i][1] > this.y && blackFigure[j][k][1] > this.y || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] < blackFigure[j][k][1] && possibleMoves[i][1] < this.y && blackFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if (this.side == "black") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < whiteFigure.length; j++) {
+          for (let k = 0; k < whiteFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (whiteFigure[j][k]) {
+                if (possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] < whiteFigure[j][k][0] && possibleMoves[i][0] < this.x && whiteFigure[j][k][0] < this.x || possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] > whiteFigure[j][k][0] && possibleMoves[i][0] > this.x && whiteFigure[j][k][0] > this.x || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] > whiteFigure[j][k][1] && possibleMoves[i][1] > this.y && whiteFigure[j][k][1] > this.y || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] < whiteFigure[j][k][1] && possibleMoves[i][1] < this.y && whiteFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    possibleMoves = possibleMoves.filter(el => el);
+
     return possibleMoves;
   }
 }
