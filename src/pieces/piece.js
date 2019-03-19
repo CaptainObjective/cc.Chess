@@ -4,6 +4,7 @@ class Piece {
     constructor(x, y, side) {
         this.x = x;
         this.y = y;
+        this.wasMoved = false;
 
         this.side = side; //'black' or 'white'
     }
@@ -22,6 +23,7 @@ class Piece {
         this.x = newX;
         this.y = newY;
         // console.log(typeof (this.x), typeof (this.y))
+        this.wasMoved = true;
         document.getElementById(`${newX},${newY}`).innerHTML = this.display;
 
     }
