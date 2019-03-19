@@ -15,15 +15,17 @@ class Rook extends Piece {
             possibleMoves[i + board.length] = [i, this.y]
         }
         possibleMoves.forEach(el => {
-            console.log(el)
+            // console.log(el)
             if (el[0] == [this.x] && el[1] == [this.y]) {
-                console.log(possibleMoves.indexOf(el))
+                // console.log(possibleMoves.indexOf(el))
                 possibleMoves.splice((possibleMoves.indexOf(el)), 1)
                 // W jakiś sposób naprawić wieżę na h8
             }
         })
 
-        console.log(possibleMoves);
+        possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
+
+        // console.log(possibleMoves);
         return possibleMoves;
     }
 }
