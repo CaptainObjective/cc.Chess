@@ -13,20 +13,60 @@ class Pawn extends Piece {
         console.log(possibleMoves);
 
         if (this.side == 'white') {
-            if (this.x == 6) {
-                possibleMoves.push(`${4},${this.y}`);
-                possibleMoves.push(`${5},${this.y}`);
-            } else {
-                (parseInt(this.x) - 1 > 0) && possibleMoves.push(`${parseInt(this.x) - 1},${this.y}`);
+            if(this.x != 0){
+                if (board[this.x - 1][this.y + 1] != null) {
+                    if (board[this.x - 1][this.y + 1].side != this.side) {
+                        possibleMoves.push(`${this.x - 1},${this.y + 1}`);
+                    }
+                }
+                if (board[this.x - 1][this.y - 1] != null) {
+                    if (board[this.x - 1][this.y - 1].side != this.side) {
+                        possibleMoves.push(`${this.x - 1},${this.y - 1}`);
+                    }
+                }
             }
-        }
+            if(this.x == 6){              
+                if (board[this.x - 1][this.y] == null) {
+                    possibleMoves.push(`${5},${this.y}`);
+                }
+                if (board[this.x - 1][this.y] == null && board[this.x - 2][this.y] == null) {
+                    possibleMoves.push(`${4},${this.y}`); 
+                }
+            }
+            else if (this.x != 0){
+                if (board[this.x - 1][this.y] == null) {
+                    ((this.x) - 1 > 0) && possibleMoves.push(`${(this.x) - 1},${this.y}`);
+                } 
+            }       
+        }  
+        
         if (this.side == 'black') {
-            if (this.x == 1) {
-                possibleMoves.push(`${2},${this.y}`);
-                possibleMoves.push(`${3},${this.y}`);
-            } else {
-                (parseInt(this.x) + 1 < 7) && possibleMoves.push(`${parseInt(this.x) + 1},${this.y}`);
+            if (this.x != 7) {
+                if (board[this.x + 1][this.y - 1] != null) {
+                    if (board[this.x + 1][this.y - 1].side != this.side) {
+                        possibleMoves.push(`${this.x + 1},${this.y - 1}`);
+                    }
+                }
+                if (board[this.x + 1][this.y + 1] != null) {
+                    if (board[this.x + 1][this.y + 1].side != this.side) {
+                        possibleMoves.push(`${this.x + 1},${this.y + 1}`);
+                    }
+                }
             }
+            if (this.x == 1) {
+                if (board[(this.x) + 1][this.y] == null) {
+                    possibleMoves.push(`${2},${this.y}`);
+                }
+                if (board[(this.x) + 1][this.y] == null && board[(this.x) + 2][this.y] == null) {
+                    possibleMoves.push(`${3},${this.y}`);
+                }
+            }
+            else if (this.x != 7){
+                if (board[(this.x) + 1][this.y] == null){
+                    ((this.x) + 1 > 0) && possibleMoves.push(`${(this.x) + 1},${this.y}`);
+                }
+            }
+            
         }
         return possibleMoves;
     }
