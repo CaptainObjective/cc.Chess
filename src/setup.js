@@ -1,8 +1,10 @@
-import board from './board'
+import board from './board';
+import AI from './ai';
 
 
 const setup = () => {
     console.log(board);
+    const opponent = new AI();
     for (let x = 0; x < board.length; x++) {
         for (let y = 0; y < board[x].length; y++) {
             const square = document.createElement('div');
