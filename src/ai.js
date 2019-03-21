@@ -1,20 +1,39 @@
 class AI {
 
     constructor() {
-        this.stockfish = new Worker("./assets/stockfish/stockfish.js");
-        this.stockfish.onmessage = function onmessage(event) {
-            if (event.data.includes('bestmove')) {
+        try { this.stockfish = new Worker("./assets/stockfish/stockfish.js"); }
+        catch (e) { alert('Nie pograsz, zainwestuj w porządną przeglądarkę') }
+
+        this.stockfish.onmessage = (event) => {
+            if (!event.data.includes('info')) {
                 console.log(event.data);
             }
             // console.log(event.data);
         };
-        // this.stockfish.postMessage("go depth 15");
         this.stockfish.postMessage("ucinewgame");
         this.stockfish.postMessage("isready");
-        this.stockfish.postMessage("position startpos ");//moves e2e4 e7e5
-        this.stockfish.postMessage("go depth 15");
-        // this.stockfish.postMessage("d");
+
+        this.history = '';
     }
+    translateToEngine(from, to) {
+        to.forEach((el, i, arr) => arr[i] = parseInt(arr[i]));
+        const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        const ranks = [8, 7, 6, 5, 4, 3, 2, 1];
+        let newMove = `${files[from[1]]}${ranks[from[0]]}${files[to[1]]}${ranks[to[0]]}`
+
+        // console.log(from, to);
+        // console.log(newMove);
+        return newMove;
+
+    }
+    getMove(from, to) {
+        const lastMove = this.translateToEngine(from, to)
+        this.history += lastMove;
+        this.stockfish.postMessage(`position startpos moves ${this.history}`);//moves e2e4 e7e5
+        this.stockfish.postMessage(`go depth 20`);
+        this.stockfish.postMessage("d");
+    }
+
 }
 
 export default AI;
