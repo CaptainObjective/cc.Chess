@@ -55,6 +55,8 @@ board[queen.x][queen.y] = queen;
 queen = new Queen(0, 3, 'black');
 board[queen.x][queen.y] = queen;
 
+pawn = new Pawn(6, 4, 'white');
+board[pawn.x][pawn.y] = pawn;
 let king = new King(7, 4, 'white');
 board[king.x][king.y] = king;
 king = new King(0, 4, 'black');
