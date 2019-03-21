@@ -27,7 +27,7 @@ class King extends Piece {
             if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
                 if (board[newX][newY] == undefined || board[newX][newY].side != this.side) {
                     // console.log(newX, newY);
-                    // console.log(board[newX][newY])
+                    console.log(board[newX][newY])
                     possibleMoves.push(`${newX},${newY}`);
                 }
             }
@@ -42,6 +42,7 @@ class King extends Piece {
         if (!this.wasMoved && !board[this.x][0].wasMoved && !board[this.x][this.y - 1]) {
             possibleMoves.push(`${this.x},${this.y - 2}`)
         }
+
         return possibleMoves;
     }
 
