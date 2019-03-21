@@ -27,7 +27,7 @@ class King extends Piece {
             if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
                 if (board[newX][newY] == undefined || board[newX][newY].side != this.side) {
                     // console.log(newX, newY);
-                    // console.log(board[newX][newY])
+                    console.log(board[newX][newY])
                     possibleMoves.push(`${newX},${newY}`);
                 }
             }
@@ -43,19 +43,6 @@ class King extends Piece {
             possibleMoves.push(`${this.x},${this.y - 2}`)
         }
 
-        /*
-        if (this.x >= 0 && this.y >= 0 && this.x =< 7 && this.y =< 7) {
-            possibleMoves.push(`${this.x},${this.y - 1}`);
-            possibleMoves.push(`${this.x},${this.y + 1}`);
-            possibleMoves.push(`${this.x - 1},${this.y}`);
-            possibleMoves.push(`${this.x + 1},${this.y}`);
-            possibleMoves.push(`${this.x - 1},${this.y - 1}`);
-            possibleMoves.push(`${this.x + 1},${this.y - 1}`);
-            possibleMoves.push(`${this.x - 1},${this.y + 1}`);
-            possibleMoves.push(`${this.x + 1},${this.y + 1}`);
-        } TEN KOD NIE DZIAŁA, biała bierka za każdym razem się rozpieprza i wyrzuca błąd o klasie null*/
-        // console.log(possibleMoves);
-        // console.log(this)
         return possibleMoves;
     }
 }
