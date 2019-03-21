@@ -1,4 +1,4 @@
-import setup from './setup'
+import setup, { engine } from './setup'
 import board from './board';
 
 //checkWinner();
@@ -23,6 +23,8 @@ const possibleMoves = () => {
     return pieceElement.findLegalMoves() == '' ? false : true;
 }
 const moved = (cord) => {
+    pieceElement.side == 'white' && engine.getMove([pieceElement.x, pieceElement.y], cord);
+    // pieceElement.side == 'black' && engine.getMove([pieceElement.x, pieceElement.y], cord);
     pieceElement.move(cord)
     clearMoves(cord);
 }
@@ -55,13 +57,13 @@ chessBoard.addEventListener('click', (e) => {
                 clearMoves(squareCords);
             }
         }
-    pieceElement = false;
+        pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]]) { // jesli na polu bierek
             console.log('zaznaczam bierka')
             // touched(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
-            if(!possibleMoves()){
+            if (!possibleMoves()) {
                 pieceElement = false;
             }
         } else { //jesli na polu brak bierka
