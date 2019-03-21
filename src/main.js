@@ -1,5 +1,6 @@
 import setup from './setup'
 import board from './board';
+import Pawn from './pieces/pawn'
 
 //checkWinner();
 
@@ -50,6 +51,12 @@ chessBoard.addEventListener('click', (e) => {
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
                 moved(squareCords);
                 console.log('Ruszam');
+              
+                if (pieceElement instanceof Pawn && (squareCords[0] == "0" || squareCords[0] == "7")) {
+                    //jeśli można dokonać promocji pionka
+                    pieceElement.promote(squareCords, pieceElement.side);
+                }
+
             } else {
                 console.log('Nie Ruszam');
                 clearMoves(squareCords);
@@ -71,5 +78,5 @@ chessBoard.addEventListener('click', (e) => {
     }
 });
 
-window.onload = setup
+window.onload = setup;
 

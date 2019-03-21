@@ -1,5 +1,6 @@
 import Piece from './Piece';
 import board from '../board';
+import Queen from './queen';
 
 class Pawn extends Piece {
     constructor(x, y, side) {
@@ -30,11 +31,17 @@ class Pawn extends Piece {
         }
         return possibleMoves;
     }
-    promote() {
-
+    promote(cord, side) {      
+        console.log('promocja pionka');
+        let newX = parseInt(cord[0]);
+        let newY = parseInt(cord[1]);
+        let promoteTo = new Queen(newX, newY, side);
+        board[newX][newY] = promoteTo;
+        document.getElementById(`${newX},${newY}`).innerHTML = promoteTo.display;
     }
-    enPassant() {
 
+    enPassant() {
+        
     }
 }
 
