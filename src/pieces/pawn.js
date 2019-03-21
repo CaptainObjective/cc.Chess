@@ -17,7 +17,7 @@ class Pawn extends Piece {
                 possibleMoves.push(`${4},${this.y}`);
                 possibleMoves.push(`${5},${this.y}`);
             } else {
-                (parseInt(this.x) - 1 > 0) && possibleMoves.push(`${parseInt(this.x) - 1},${this.y}`);
+                (parseInt(this.x) - 1 >= 0) && possibleMoves.push(`${parseInt(this.x) - 1},${this.y}`);
             }
         }
         if (this.side == 'black') {
@@ -25,7 +25,7 @@ class Pawn extends Piece {
                 possibleMoves.push(`${2},${this.y}`);
                 possibleMoves.push(`${3},${this.y}`);
             } else {
-                (parseInt(this.x) + 1 < 7) && possibleMoves.push(`${parseInt(this.x) + 1},${this.y}`);
+                (parseInt(this.x) + 1 <= 7) && possibleMoves.push(`${parseInt(this.x) + 1},${this.y}`);
             }
         }
         return possibleMoves;
