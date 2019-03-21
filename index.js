@@ -2297,6 +2297,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./board */ "./src/board.js");
+/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+
 
 
 
@@ -2351,6 +2353,11 @@ chessBoard.addEventListener('click', e => {
       if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
         moved(squareCords);
         console.log('Ruszam');
+
+        if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
+          //jeśli można dokonać promocji pionka
+          pieceElement.promote(squareCords, pieceElement.side);
+        }
       } else {
         console.log('Nie Ruszam');
         clearMoves(squareCords);
@@ -2610,6 +2617,8 @@ class Knight extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ "./src/board.js");
+/* harmony import */ var _queen__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./queen */ "./src/pieces/queen.js");
+
 
 
 
@@ -2646,7 +2655,14 @@ class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return possibleMoves;
   }
 
-  promote() {}
+  promote(cord, side) {
+    console.log('promocja pionka');
+    let newX = parseInt(cord[0]);
+    let newY = parseInt(cord[1]);
+    let promoteTo = new _queen__WEBPACK_IMPORTED_MODULE_2__["default"](newX, newY, side);
+    _board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY] = promoteTo;
+    document.getElementById(`${newX},${newY}`).innerHTML = promoteTo.display;
+  }
 
   enPassant() {}
 
