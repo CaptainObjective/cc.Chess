@@ -2605,7 +2605,8 @@ class King extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
       if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
         if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY] == undefined || _board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY].side != this.side) {
-          // console.log(board[newX][newY])
+          // console.log(newX, newY);
+          console.log(_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY]);
           possibleMoves.push(`${newX},${newY}`);
         }
       }
