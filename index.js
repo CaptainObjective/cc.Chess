@@ -2615,14 +2615,23 @@ class Knight extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
-/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ "./src/board.js");
-/* harmony import */ var _queen__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./queen */ "./src/pieces/queen.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board */ "./src/board.js");
+/* harmony import */ var _queen__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./queen */ "./src/pieces/queen.js");
+/* harmony import */ var _knight__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./knight */ "./src/pieces/knight.js");
+/* harmony import */ var _bishop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bishop */ "./src/pieces/bishop.js");
+/* harmony import */ var _rook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./rook */ "./src/pieces/rook.js");
 
 
 
 
-class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
+
+
+
+
+class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
   constructor(x, y, side) {
     super(x, y, side);
     this.name = 'pawn';
@@ -2659,9 +2668,52 @@ class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
     console.log('promocja pionka');
     let newX = parseInt(cord[0]);
     let newY = parseInt(cord[1]);
-    let promoteTo = new _queen__WEBPACK_IMPORTED_MODULE_2__["default"](newX, newY, side);
-    _board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY] = promoteTo;
-    document.getElementById(`${newX},${newY}`).innerHTML = promoteTo.display;
+    let promo = document.createElement('div');
+    promo.id = 'promo';
+    promo.style.left = newY * 10 + 'vh';
+
+    if (side == 'white') {
+      promo.style.top = '10vh';
+    } else {
+      promo.style.bottom = '10vh';
+    }
+
+    promo.innerHTML = `<div data-piece="queen" class="square"><i class="fas fa-chess-queen ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="knight" class="square"><i class="fas fa-chess-knight ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="bishop" class="square"><i class="fas fa-chess-bishop ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="rook" class="square"><i class="fas fa-chess-rook ${side}" ></i></div>`;
+    document.getElementById('board').appendChild(promo);
+    Array.from(promo.getElementsByTagName('div')).forEach(function (element) {
+      element.addEventListener('click', e => {
+        e.stopPropagation();
+        let piece = e.currentTarget.dataset.piece; //console.log(piece);
+
+        let promoteTo;
+
+        switch (piece) {
+          case 'queen':
+            promoteTo = new _queen__WEBPACK_IMPORTED_MODULE_3__["default"](newX, newY, side);
+            break;
+
+          case 'knight':
+            promoteTo = new _knight__WEBPACK_IMPORTED_MODULE_4__["default"](newX, newY, side);
+            break;
+
+          case 'bishop':
+            promoteTo = new _bishop__WEBPACK_IMPORTED_MODULE_5__["default"](newX, newY, side);
+            break;
+
+          case 'rook':
+            promoteTo = new _rook__WEBPACK_IMPORTED_MODULE_6__["default"](newX, newY, side);
+            break;
+        }
+
+        _board__WEBPACK_IMPORTED_MODULE_2__["default"][newX][newY] = promoteTo;
+        document.getElementById(`${newX},${newY}`).innerHTML = promoteTo.display;
+        promo.parentElement.removeChild(promo);
+        promo = null;
+      });
+    });
   }
 
   enPassant() {}
