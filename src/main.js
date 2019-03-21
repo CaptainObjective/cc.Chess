@@ -106,6 +106,12 @@ chessBoard.addEventListener('click', (e) => {
                     pieceElement.promote(squareCords, pieceElement.side);
                 }
 
+                if (!whiteDoCastling) {
+                    whiteCastling();
+                }
+                if (!blackDoCastling) {
+                    blackCastling();
+                }
             } else {
                 console.log('Nie Ruszam');
                 clearMoves(squareCords);
