@@ -23,6 +23,9 @@ class Piece {
         this.x = newX;
         this.y = newY;
         // console.log(typeof (this.x), typeof (this.y))
+
+        this.wasMoved ? this.firstMove = false : this.firstMove = true
+        console.log(newY)
         this.wasMoved = true;
         document.getElementById(`${newX},${newY}`).innerHTML = this.display;
 
