@@ -2329,6 +2329,14 @@ const moved = cord => {
   clearMoves(cord);
 };
 
+const addSelection = cord => {
+  document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className += ' selected';
+};
+
+const remSelection = cord => {
+  document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className = document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className.replace('selected', '');
+};
+
 const clearMoves = cord => {
   for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_3__["default"].length; x++) {
     for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_3__["default"][x].length; y++) {
@@ -2346,6 +2354,7 @@ chessBoard.addEventListener('click', e => {
     if (squareCords[0] == pieceElement.x && squareCords[1] == pieceElement.y) {
       console.log('To samo pole');
       clearMoves(squareCords);
+      remSelection([pieceElement.x, pieceElement.y]);
     } else {
       console.log(squareCords.toString());
       console.log(pieceElement.findLegalMoves());
@@ -2361,6 +2370,7 @@ chessBoard.addEventListener('click', e => {
       } else {
         console.log('Nie Ruszam');
         clearMoves(squareCords);
+        remSelection([pieceElement.x, pieceElement.y]);
       }
     }
 
@@ -2372,8 +2382,10 @@ chessBoard.addEventListener('click', e => {
       console.log('zaznaczam bierka'); // touched(squareCords);
 
       pieceElement = _board__WEBPACK_IMPORTED_MODULE_3__["default"][squareCords[0]][squareCords[1]];
+      addSelection([pieceElement.x, pieceElement.y]);
 
       if (!possibleMoves()) {
+        remSelection([pieceElement.x, pieceElement.y]);
         pieceElement = false;
       }
     } else {
