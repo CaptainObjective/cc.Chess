@@ -23,10 +23,20 @@ const possibleMoves = () => {
     return pieceElement.findLegalMoves() == '' ? false : true;
 }
 const moved = (cord) => {
+    console.log(cord);
     pieceElement.side == 'white' && engine.getMove([pieceElement.x, pieceElement.y], cord);
     // pieceElement.side == 'black' && engine.getMove([pieceElement.x, pieceElement.y], cord);
     pieceElement.move(cord)
     clearMoves(cord);
+}
+const engineMoved = ([from, to]) => {
+    // console.log(from);
+    // console.log(to);
+    const pieceMoved = board[parseInt(from[0])][parseInt(from[2])];
+    console.log(pieceMoved)
+    pieceMoved.move([to[0], to[2]]);
+    //zmiana tury
+
 }
 
 const clearMoves = (cord) => {
@@ -47,8 +57,8 @@ chessBoard.addEventListener('click', (e) => {
             console.log('To samo pole');
             clearMoves(squareCords);
         } else {
-            console.log(squareCords.toString());
-            console.log(pieceElement.findLegalMoves())
+            // console.log(squareCords.toString());
+            // console.log(pieceElement.findLegalMoves())
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
                 moved(squareCords);
                 console.log('Ruszam');
@@ -61,7 +71,7 @@ chessBoard.addEventListener('click', (e) => {
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]]) { // jesli na polu bierek
             console.log('zaznaczam bierka')
-            // touched(squareCords);
+            console.log(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
             if (!possibleMoves()) {
                 pieceElement = false;
@@ -74,4 +84,6 @@ chessBoard.addEventListener('click', (e) => {
 });
 
 window.onload = setup
+
+export { engineMoved };
 
