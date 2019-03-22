@@ -4,9 +4,20 @@ import Pawn from './pieces/pawn'
 
 //checkWinner();
 
-//changePlayer(); to wszystko na później
+
 
 const chessBoard = document.getElementById('board');
+
+const changePlayer = {
+    _turn: ['white', 'black'],
+    get turn() {
+        return this._turn[0];
+    },
+
+    flip() {
+        this._turn.reverse();
+    }
+}
 
 const getCord = (e) => {
     if (e.target.localName === 'div') {
@@ -59,6 +70,7 @@ chessBoard.addEventListener('click', (e) => {
             console.log(pieceElement.findLegalMoves())
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
                 moved(squareCords);
+                changePlayer.flip();
                 console.log('Ruszam');
               
                 if (pieceElement instanceof Pawn && (squareCords[0] == "0" || squareCords[0] == "7")) {
@@ -74,7 +86,7 @@ chessBoard.addEventListener('click', (e) => {
         }
     pieceElement = false;
     } else { // jesli bierek niezaznaczony
-        if (board[squareCords[0]][squareCords[1]]) { // jesli na polu bierek
+        if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
             console.log('zaznaczam bierka')
             // touched(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];

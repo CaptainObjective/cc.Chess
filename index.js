@@ -2303,9 +2303,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
  //checkWinner();
-//changePlayer(); to wszystko na później
 
 const chessBoard = document.getElementById('board');
+const changePlayer = {
+  _turn: ['white', 'black'],
+
+  get turn() {
+    return this._turn[0];
+  },
+
+  flip() {
+    this._turn.reverse();
+  }
+
+};
 
 const getCord = e => {
   if (e.target.localName === 'div') {
@@ -2361,6 +2372,7 @@ chessBoard.addEventListener('click', e => {
 
       if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
         moved(squareCords);
+        changePlayer.flip();
         console.log('Ruszam');
 
         if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
@@ -2377,8 +2389,8 @@ chessBoard.addEventListener('click', e => {
     pieceElement = false;
   } else {
     // jesli bierek niezaznaczony
-    if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][squareCords[0]][squareCords[1]]) {
-      // jesli na polu bierek
+    if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][squareCords[0]][squareCords[1]] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][squareCords[0]][squareCords[1]].side == changePlayer.turn) {
+      // jesli na polu bierek i kolor odpowiada kolorowi rundy
       console.log('zaznaczam bierka'); // touched(squareCords);
 
       pieceElement = _board__WEBPACK_IMPORTED_MODULE_3__["default"][squareCords[0]][squareCords[1]];
