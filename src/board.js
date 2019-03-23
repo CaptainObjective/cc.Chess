@@ -53,11 +53,15 @@ knight = new Knight(0, 6, 'black');
 board[knight.x][knight.y] = knight;
 
 const kingWhite = new King(7, 4, 'white');
-board[kingWhite.x][kingWhite.y] = king;
+board[kingWhite.x][kingWhite.y] = kingWhite;
 const kingBlack = new King(0, 4, 'black');
-board[kingBlack.x][kingBlack.y] = king;
+board[kingBlack.x][kingBlack.y] = kingBlack;
 
 
 export default board;
-export { kingBlack };
-export { kingWhite };
+export {
+    kingBlack
+};
+export {
+    kingWhite
+};

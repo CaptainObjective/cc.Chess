@@ -2203,11 +2203,13 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 /*!**********************!*\
   !*** ./src/board.js ***!
   \**********************/
-/*! exports provided: default */
+/*! exports provided: default, kingBlack, kingWhite */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "kingBlack", function() { return kingBlack; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "kingWhite", function() { return kingWhite; });
 /* harmony import */ var _pieces_rook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/rook */ "./src/pieces/rook.js");
 /* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
 /* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
@@ -2224,13 +2226,7 @@ const board = new Array(8);
 
 for (let i = 0; i < 8; i++) {
   board[i] = new Array(8);
-} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka
-
-/*let pawn = new Pawn(6, 0, 'white');
-board[pawn.x][pawn.y] = pawn;
-pawn = new Pawn(6, 1, 'white');
-board[pawn.x][pawn.y] = pawn;*/
-
+}
 
 let pawn;
 
@@ -2264,12 +2260,6 @@ let queen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_4__["default"](7, 3, 'whi
 board[queen.x][queen.y] = queen;
 queen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_4__["default"](0, 3, 'black');
 board[queen.x][queen.y] = queen;
-pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__["default"](6, 4, 'white');
-board[pawn.x][pawn.y] = pawn;
-let king = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](7, 4, 'white');
-board[king.x][king.y] = king;
-king = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](0, 4, 'black');
-board[king.x][king.y] = king;
 let knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 1, 'white');
 board[knight.x][knight.y] = knight;
 knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 6, 'white');
@@ -2278,7 +2268,13 @@ knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 1, 'black
 board[knight.x][knight.y] = knight;
 knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 6, 'black');
 board[knight.x][knight.y] = knight;
+const kingWhite = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](7, 4, 'white');
+board[kingWhite.x][kingWhite.y] = kingWhite;
+const kingBlack = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](0, 4, 'black');
+board[kingBlack.x][kingBlack.y] = kingBlack;
 /* harmony default export */ __webpack_exports__["default"] = (board);
+
+
 
 /***/ }),
 
@@ -2299,6 +2295,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./board */ "./src/board.js");
 /* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
 /* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
+
+
 
 
 
@@ -2399,6 +2397,14 @@ chessBoard.addEventListener('click', e => {
         moved(squareCords);
         changePlayer.flip();
         console.log('Ruszam');
+
+        if (!whiteDoCastling) {
+          whiteCastling();
+        }
+
+        if (!blackDoCastling) {
+          blackCastling();
+        }
 
         if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
           //jeśli można dokonać promocji pionka
