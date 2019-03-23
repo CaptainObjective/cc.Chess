@@ -1,11 +1,10 @@
 import setup from './setup'
 import board from './board';
-import Pawn from './pieces/pawn'
+import Pawn from './pieces/pawn';
+import knightWhite from './board';
+import kingBlack from './board';
 
 //checkWinner();
-
-
-
 const chessBoard = document.getElementById('board');
 
 const changePlayer = {
