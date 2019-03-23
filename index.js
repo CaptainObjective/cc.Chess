@@ -2254,10 +2254,6 @@ rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__["default"](0, 7, 'black');
 board[rook.x][rook.y] = rook;
 let bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](0, 2, 'black');
 board[bishop.x][bishop.y] = bishop;
-let knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 1, 'white');
-board[knight.x][knight.y] = knight;
-knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 6, 'white');
-board[knight.x][knight.y] = knight;
 bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](0, 5, 'black');
 board[bishop.x][bishop.y] = bishop;
 bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](7, 2, 'white');
@@ -2274,6 +2270,10 @@ let king = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](7, 4, 'white
 board[king.x][king.y] = king;
 king = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](0, 4, 'black');
 board[king.x][king.y] = king;
+let knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 1, 'white');
+board[knight.x][knight.y] = knight;
+knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 6, 'white');
+board[knight.x][knight.y] = knight;
 knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 1, 'black');
 board[knight.x][knight.y] = knight;
 knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 6, 'black');
@@ -2298,6 +2298,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./board */ "./src/board.js");
 /* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
+
 
 
 
@@ -2356,6 +2358,29 @@ const clearMoves = cord => {
   }
 };
 
+let whiteDoCastling = false;
+let blackDoCastling = false;
+
+const whiteCastling = () => {
+  if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][7][6] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_5__["default"] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][7].move([`7`, `5`]);
+    whiteDoCastling = true;
+  } else if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][7][2] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_5__["default"] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][7][0].move([`7`, `3`]);
+    whiteDoCastling = true;
+  }
+};
+
+const blackCastling = () => {
+  if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][0][6] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_5__["default"] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][7].move([`0`, `5`]);
+    blackDoCastling = true;
+  } else if (_board__WEBPACK_IMPORTED_MODULE_3__["default"][0][2] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_5__["default"] && _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][0][0].move([`0`, `3`]);
+    blackDoCastling = true;
+  }
+};
+
 let pieceElement = false;
 chessBoard.addEventListener('click', e => {
   let squareCords = getCord(e);
@@ -2378,6 +2403,14 @@ chessBoard.addEventListener('click', e => {
         if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_4__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
           //jeśli można dokonać promocji pionka
           pieceElement.promote(squareCords, pieceElement.side);
+        }
+
+        if (!whiteDoCastling) {
+          whiteCastling();
+        }
+
+        if (!blackDoCastling) {
+          blackCastling();
         }
       } else {
         console.log('Nie Ruszam');
@@ -2465,6 +2498,8 @@ class Piece {
     this.x = newX;
     this.y = newY; // console.log(typeof (this.x), typeof (this.y))
 
+    this.wasMoved ? this.firstMove = false : this.firstMove = true;
+    console.log(newY);
     this.wasMoved = true;
     document.getElementById(`${newX},${newY}`).innerHTML = this.display;
   }
@@ -2552,6 +2587,9 @@ class King extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
     super(x, y, side);
     this.name = 'king';
     this.display = `<i class="fas fa-chess-king ${side}"></i>`; //fontawesome king
+
+    this.firstMove = false;
+    this.castling = false;
   }
 
   findLegalMoves() {
@@ -2572,6 +2610,16 @@ class King extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
           possibleMoves.push(`${newX},${newY}`);
         }
       }
+    } //Small castling
+
+
+    if (!this.wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][7].wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][this.y + 1]) {
+      possibleMoves.push(`${this.x},${this.y + 2}`);
+    } //Big castling
+
+
+    if (!this.wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][0].wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][this.y - 1]) {
+      possibleMoves.push(`${this.x},${this.y - 2}`);
     }
 
     return possibleMoves;
@@ -3093,6 +3141,8 @@ class Rook extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
     possibleMoves = possibleMoves.filter(el => el);
     possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`);
+    console.log(possibleMoves);
+    console.log(this);
     return possibleMoves;
   }
 

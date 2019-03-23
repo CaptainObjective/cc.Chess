@@ -1,8 +1,9 @@
-import setup from './setup'
+import setup from './setup';
 import board from './board';
 import Pawn from './pieces/pawn';
 import knightWhite from './board';
 import kingBlack from './board';
+import King from './pieces/king';
 
 //checkWinner();
 const chessBoard = document.getElementById('board');
@@ -54,11 +55,33 @@ const clearMoves = (cord) => {
     }
 }
 
+let whiteDoCastling = false;
+let blackDoCastling = false;
+
+const whiteCastling = () => {
+    if (board[7][6] && board[7][6].constructor == King && board[7][6].firstMove) {
+        board[7][7].move([`7`, `5`]);
+        whiteDoCastling = true
+    } else if (board[7][2] && board[7][2].constructor == King && board[7][2].firstMove) {
+        board[7][0].move([`7`, `3`]);
+        whiteDoCastling = true
+    }
+}
+
+const blackCastling = () => {
+    if (board[0][6] && board[0][6].constructor == King && board[0][6].firstMove) {
+        board[0][7].move([`0`, `5`]);
+        blackDoCastling = true;
+    } else if (board[0][2] && board[0][2].constructor == King && board[0][2].firstMove) {
+        board[0][0].move([`0`, `3`]);
+        blackDoCastling = true;
+    }
+}
+
 let pieceElement = false;
 
 chessBoard.addEventListener('click', (e) => {
     let squareCords = getCord(e);
-
     if (pieceElement) { //jeśli bierek zaznaczony
         if ((squareCords[0] == pieceElement.x) && (squareCords[1] == pieceElement.y)) {
             console.log('To samo pole');
@@ -71,19 +94,31 @@ chessBoard.addEventListener('click', (e) => {
                 moved(squareCords);
                 changePlayer.flip();
                 console.log('Ruszam');
+                if (!whiteDoCastling) {
+                    whiteCastling();
+                }
+                if (!blackDoCastling) {
+                    blackCastling();
+                }
               
                 if (pieceElement instanceof Pawn && (squareCords[0] == "0" || squareCords[0] == "7")) {
                     //jeśli można dokonać promocji pionka
                     pieceElement.promote(squareCords, pieceElement.side);
                 }
 
+                if (!whiteDoCastling) {
+                    whiteCastling();
+                }
+                if (!blackDoCastling) {
+                    blackCastling();
+                }
             } else {
                 console.log('Nie Ruszam');
                 clearMoves(squareCords);
                 remSelection([pieceElement.x, pieceElement.y]);
             }
         }
-    pieceElement = false;
+        pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
             console.log('zaznaczam bierka')
@@ -103,5 +138,4 @@ chessBoard.addEventListener('click', (e) => {
     }
 });
 
-window.onload = setup;
-
+window.onload = setup
