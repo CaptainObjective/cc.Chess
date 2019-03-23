@@ -139,6 +139,8 @@ class Rook extends Piece {
 
         possibleMoves = possibleMoves.filter(el => el);
         possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
+        console.log(possibleMoves);
+        console.log(this)
         return possibleMoves;
     }
 }
