@@ -1,5 +1,5 @@
 import { engine } from './settings'
-import board,{ kingWhite, kingBlack} from './board';
+import board, { kingWhite, kingBlack } from './board';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import setup from './setup';
@@ -46,8 +46,8 @@ const engineMoved = ([from, to]) => {
     const pieceMoved = board[parseInt(from[0])][parseInt(from[2])];
     // console.log(pieceMoved)
     pieceMoved.move([to[0], to[2]]);
-    //zmiana tury
-
+    changePlayer.flip();
+}
 const addSelection = (cord) => {
     document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className += ' selected';
 }
@@ -127,7 +127,7 @@ chessBoard.addEventListener('click', (e) => {
                 remSelection([pieceElement.x, pieceElement.y]);
             }
         }
-        
+
         pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
@@ -156,14 +156,14 @@ const checkMate = () => {
             if (board[x][y] != null) {
                 board[x][y].findLegalMoves().forEach(element => {
                     if (board[x][y].side != 'white' && element === `${kingWhite.x},${kingWhite.y}`) {
-                    console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");   
+                        console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");
                     }
                     if (board[x][y].side != 'black' && element === `${kingBlack.x},${kingBlack.y}`) {
-                    console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");   
+                        console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");
                     }
-                   
+
                 });
-                
+
             }
         }
     }
@@ -171,5 +171,4 @@ const checkMate = () => {
 
 window.onload = setup
 
-export { engineMoved };
-
+export { engineMoved }
