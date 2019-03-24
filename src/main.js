@@ -130,6 +130,10 @@ chessBoard.addEventListener('click', (e) => {
 
         pieceElement = false;
     } else { // jesli bierek niezaznaczony
+        if (engine && board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side != engine.side) {
+            console.log('Ruszasz się nie swoją bierką');
+            return
+        }
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
             console.log('zaznaczam bierka')
             console.log(squareCords);
