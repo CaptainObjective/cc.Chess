@@ -2269,9 +2269,9 @@ board[knight.x][knight.y] = knight;
 knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 6, 'black');
 board[knight.x][knight.y] = knight;
 const kingWhite = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](7, 4, 'white');
-board[kingWhite.x][kingWhite.y] = king;
+board[kingWhite.x][kingWhite.y] = kingWhite;
 const kingBlack = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](0, 4, 'black');
-board[kingBlack.x][kingBlack.y] = king;
+board[kingBlack.x][kingBlack.y] = kingBlack;
 /* harmony default export */ __webpack_exports__["default"] = (board);
 
 
