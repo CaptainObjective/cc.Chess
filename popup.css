@@ -146,13 +146,3 @@ form [type=radio]:checked+div#black {
     appearance: none;
     background-color: #fff;
 }
-
-input[type="button"] {
-    background: #76B3FA;
-    border-radius: 100px;
-    padding: 20px 60px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.45em;
-    margin: 0 15px;
-}
