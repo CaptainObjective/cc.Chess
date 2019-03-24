@@ -6,7 +6,9 @@ const getSettings = (e) => {
     const gameMode = e.target.gameMode.value;
     const difficulty = e.target.difficulty.value;
     const side = e.target.side.value;
-    const layout = e.target.layout.value;
+    const style = e.target.layout.value;
+    document.getElementById("theme").setAttribute("href", `${style}.css`);
+
     if (gameMode == 'vsComp') {
         console.log(difficulty)
         engine = new AI(difficulty, side)
@@ -19,6 +21,9 @@ const getSettings = (e) => {
 
 const change = (e) => {
     e.preventDefault();
+    const style = document.querySelector('input[name="layout"]:checked').value;
+    document.getElementById("theme").setAttribute("href", `${style}.css`);
+
     const gameMode = document.querySelector('input[name="gameMode"]:checked').value;
     const difficulty = document.getElementById('difficulty');
     const side = [...document.getElementsByName('side')];
@@ -69,8 +74,8 @@ form.innerHTML = `
         </br>
         <label for="layout">
             Theme:
-            <label><input type="radio" name="layout" value="Classic"> Classic </label>
-            <label><input type="radio" name="layout" value="Modern" checked> Modern </label>
+            <label><input type="radio" name="layout" value="classic"> Classic </label>
+            <label><input type="radio" name="layout" value="modern" checked> Modern </label>
         </label> </br>`;
 
 const submit = document.createElement('input');
