@@ -2,9 +2,9 @@ import { engineMoved } from './main';
 
 class AI {
 
-    constructor() {
+    constructor(depth) {
         try { this.stockfish = new Worker("./assets/stockfish/stockfish.js"); }
-        catch (e) { alert('Nie pograsz, zainwestuj w porządną przeglądarkę') }
+        catch (e) { alert('You shall not play! Get normal browser') }
 
         this.stockfish.onmessage = (event) => {
             if (!event.data.includes('info')) {
@@ -27,7 +27,7 @@ class AI {
         this.stockfish.postMessage("ucinewgame");
         this.stockfish.postMessage("isready");
 
-        this.depth = 10;//poziom trudności
+        this.depth = depth;//poziom trudności
         this.history = '';
     }
     translateToEngine(from, to) {

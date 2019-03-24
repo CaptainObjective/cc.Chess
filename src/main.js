@@ -1,4 +1,5 @@
-import setup, { engine } from './setup'
+import setup from './setup'
+import { engine } from './settings'
 import board from './board';
 
 //checkWinner();
@@ -24,7 +25,7 @@ const possibleMoves = () => {
 }
 const moved = (cord) => {
     console.log(cord);
-    pieceElement.side == 'white' && engine.getMove([pieceElement.x, pieceElement.y], cord);
+    pieceElement.side == 'white' && (engine && engine.getMove([pieceElement.x, pieceElement.y], cord));
     // pieceElement.side == 'black' && engine.getMove([pieceElement.x, pieceElement.y], cord);
     pieceElement.move(cord)
     clearMoves(cord);
