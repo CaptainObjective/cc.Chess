@@ -13,17 +13,17 @@ class Knight extends Piece {
 
         for (let i of [-2, -1, 1, 2]) {
             possX = this.x + i;
-            
+
             for (let j of [-1, 1]) {
                 possY = this.y + j * (3 - Math.abs(i));
-                
+
                 if (possX >= 0 && possX <= 7 && possY >= 0 && possY <= 7) {
                     if (board[possX][possY] != null ? board[possX][possY].side != this.side : true)
-                        possibleMoves.push(`${possX},${possY}`);                      
+                        possibleMoves.push(`${possX},${possY}`);
                 }
             }
         }
-        console.log(possibleMoves);
+        // console.log(possibleMoves);
         return possibleMoves;
     }
 }

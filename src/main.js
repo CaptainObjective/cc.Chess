@@ -1,7 +1,8 @@
-import setup from './setup';
+import { engine } from './settings'
 import board,{ kingWhite, kingBlack} from './board';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
+import setup from './setup';
 
 //checkWinner();
 const chessBoard = document.getElementById('board');
@@ -33,9 +34,19 @@ const possibleMoves = () => {
     return pieceElement.findLegalMoves() == '' ? false : true;
 }
 const moved = (cord) => {
+    console.log(cord);
+    engine && (pieceElement.side == engine.side && engine.getMove([pieceElement.x, pieceElement.y], cord));
+
     pieceElement.move(cord)
     clearMoves(cord);
 }
+const engineMoved = ([from, to]) => {
+    // console.log(from);
+    // console.log(to);
+    const pieceMoved = board[parseInt(from[0])][parseInt(from[2])];
+    // console.log(pieceMoved)
+    pieceMoved.move([to[0], to[2]]);
+    //zmiana tury
 
 const addSelection = (cord) => {
     document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className += ' selected';
@@ -86,8 +97,8 @@ chessBoard.addEventListener('click', (e) => {
             clearMoves(squareCords);
             remSelection([pieceElement.x, pieceElement.y]);
         } else {
-            console.log(squareCords.toString());
-            console.log(pieceElement.findLegalMoves())
+            // console.log(squareCords.toString());
+            // console.log(pieceElement.findLegalMoves())
             if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
                 moved(squareCords);
                 changePlayer.flip();
@@ -121,7 +132,7 @@ chessBoard.addEventListener('click', (e) => {
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
             console.log('zaznaczam bierka')
-            // touched(squareCords);
+            console.log(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
 
             addSelection([pieceElement.x, pieceElement.y]);
@@ -159,3 +170,6 @@ const checkMate = () => {
 }
 
 window.onload = setup
+
+export { engineMoved };
+
