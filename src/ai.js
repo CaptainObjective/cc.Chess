@@ -2,7 +2,7 @@ import { engineMoved } from './main';
 
 class AI {
 
-    constructor(depth) {
+    constructor(depth, side) {
         try { this.stockfish = new Worker("./assets/stockfish/stockfish.js"); }
         catch (e) { alert('You shall not play! Get normal browser') }
 
@@ -28,7 +28,12 @@ class AI {
         this.stockfish.postMessage("isready");
 
         this.depth = depth;//poziom trudności
+        this.side = side;//'black' or 'white' po której stronie gra gracz nie komp
         this.history = '';
+
+        if (this.side == 'black') {
+            this.getFirstMove()
+        }
     }
     translateToEngine(from, to) {
         to.forEach((el, i, arr) => arr[i] = parseInt(arr[i]));
@@ -56,6 +61,11 @@ class AI {
     getMove(from, to) {
         const lastMove = this.translateToEngine(from, to)
         this.history += ` ${lastMove}`;
+        this.stockfish.postMessage(`position startpos moves ${this.history}`);//moves e2e4 e7e5
+        this.stockfish.postMessage(`go depth ${this.depth}`);
+        this.stockfish.postMessage("d");//fajne do testów
+    }
+    getFirstMove() {
         this.stockfish.postMessage(`position startpos moves ${this.history}`);//moves e2e4 e7e5
         this.stockfish.postMessage(`go depth ${this.depth}`);
         this.stockfish.postMessage("d");//fajne do testów
