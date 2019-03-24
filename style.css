@@ -64,13 +64,28 @@ body {
 
 .possibleMove {
     background:rgba(202, 25, 63, 0.5);
-} */
+} 
 
-//for some reason it doesnt work without this first #promo.
+.selected {
+    font-size: 1.1em;
+}
+
+.selected.white {
+    color: white;
+}
+
+.selected.black {
+    color: black;
+}
+
+/* for some reason it doesnt work without this first #promo. */
+
 #promo {
     /* position: absolute; */
     /* background-color: rgba(202, 25, 63, 0.9); */
 }
+
+/* no clue why */
 
 #promo {
     position: absolute;
