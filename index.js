@@ -2203,7 +2203,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 /*!**********************!*\
   !*** ./src/board.js ***!
   \**********************/
-/*! exports provided: default */
+/*! exports provided: default, kingBlack, kingWhite */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
