@@ -1,0 +1,29 @@
+:root {
+    --primary: rgb(120, 158, 83);
+    --secondary: rgba(201, 201, 179, 0.8);
+    --selected: rgba(221, 219, 82, 0.90);
+}
+
+body {
+    background-color: var(--primary);
+}
+
+.square {
+    border: 2px solid var(--white-figures);
+}
+
+.light {
+    background: var(--secondary);
+}
+
+.dark {
+    background: var(--primary);
+}
+
+.possibleMove {
+    background: var(--selected);
+}
+
+#promo{
+    background-color: var(--selected);
+}

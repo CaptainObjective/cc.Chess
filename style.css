@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+:root {
+    --white: white;
+    --black: black;  
+    --white-figures: rgba(255, 255, 255, 0.8);
+    --black-figures: rgba(0, 0, 0, 0.7);
+}
+
+>>>>>>> master
 html {
     margin: 0;
 }
@@ -17,21 +27,35 @@ html {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    outline: 5px black solid;
     width: 80vh;
     height: 80vh;
 }
 
 .square {
+<<<<<<< HEAD
     /* border: 1px darkslategrey solid; */
+=======
+>>>>>>> master
     width: 10vh;
     height: 10vh;
     text-align: center;
     line-height: 10vh;
     font-size: 7.5vh;
-
 }
 
+.black {
+    color: var(--black-figures);
+}
+
+.white {
+    color: var(--white-figures);
+}
+
+.selected {
+    font-size: 1.1em;
+}
+
+<<<<<<< HEAD
 .light {
     background: rgb(215, 235, 243);
 }
@@ -64,4 +88,32 @@ html {
 
 #promo > div:hover {
     background-color: rgb(215, 235, 243);
+=======
+.selected.white {
+    color: var(--white);
+}
+
+.selected.black {
+    color: var(--black);
+}
+
+#promo {
+    position: absolute;
+}
+
+#promo>div {
+    background-color: transparent;
+}
+
+#promo>div:hover>i {
+    font-size: 1.1em;
+}
+
+#promo>div:hover>i.white {
+    color: var(--white);
+}
+
+#promo>div:hover>i.black {
+    color: var(--black);
+>>>>>>> master
 }
