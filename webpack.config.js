@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 module.exports = {
     mode: 'development',
     entry: './src/main.js',
@@ -10,6 +11,7 @@ module.exports = {
     resolve: {
         extensions: ['.js']
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
