@@ -101,6 +101,24 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_add-to-unscopables.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/modules/_add-to-unscopables.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 22.1.3.31 Array.prototype[@@unscopables]
+var UNSCOPABLES = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('unscopables');
+var ArrayProto = Array.prototype;
+if (ArrayProto[UNSCOPABLES] == undefined) __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js")(ArrayProto, UNSCOPABLES, {});
+module.exports = function (key) {
+  ArrayProto[UNSCOPABLES][key] = true;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_advance-string-index.js":
 /*!***************************************************************!*\
   !*** ./node_modules/core-js/modules/_advance-string-index.js ***!
@@ -132,6 +150,40 @@ var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/m
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_array-includes.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/modules/_array-includes.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var toLength = __webpack_require__(/*! ./_to-length */ "./node_modules/core-js/modules/_to-length.js");
+var toAbsoluteIndex = __webpack_require__(/*! ./_to-absolute-index */ "./node_modules/core-js/modules/_to-absolute-index.js");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
 };
 
 
@@ -275,6 +327,47 @@ var document = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modu
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
   return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_enum-bug-keys.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/modules/_enum-bug-keys.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_enum-keys.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/_enum-keys.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// all enumerable object keys, includes symbols
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/modules/_object-keys.js");
+var gOPS = __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/modules/_object-gops.js");
+var pIE = __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/modules/_object-pie.js");
+module.exports = function (it) {
+  var result = getKeys(it);
+  var getSymbols = gOPS.f;
+  if (getSymbols) {
+    var symbols = getSymbols(it);
+    var isEnum = pIE.f;
+    var i = 0;
+    var key;
+    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
+  } return result;
 };
 
 
@@ -548,6 +641,19 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_html.js":
+/*!***********************************************!*\
+  !*** ./node_modules/core-js/modules/_html.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modules/_global.js").document;
+module.exports = document && document.documentElement;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_ie8-dom-define.js":
 /*!*********************************************************!*\
   !*** ./node_modules/core-js/modules/_ie8-dom-define.js ***!
@@ -558,6 +664,39 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-
 module.exports = !__webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js") && !__webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js")(function () {
   return Object.defineProperty(__webpack_require__(/*! ./_dom-create */ "./node_modules/core-js/modules/_dom-create.js")('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_iobject.js":
+/*!**************************************************!*\
+  !*** ./node_modules/core-js/modules/_iobject.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(/*! ./_cof */ "./node_modules/core-js/modules/_cof.js");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_is-array.js":
+/*!***************************************************!*\
+  !*** ./node_modules/core-js/modules/_is-array.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__(/*! ./_cof */ "./node_modules/core-js/modules/_cof.js");
+module.exports = Array.isArray || function isArray(arg) {
+  return cof(arg) == 'Array';
+};
 
 
 /***/ }),
@@ -576,6 +715,138 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_iter-create.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_iter-create.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var create = __webpack_require__(/*! ./_object-create */ "./node_modules/core-js/modules/_object-create.js");
+var descriptor = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/modules/_property-desc.js");
+var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "./node_modules/core-js/modules/_set-to-string-tag.js");
+var IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+__webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js")(IteratorPrototype, __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('iterator'), function () { return this; });
+
+module.exports = function (Constructor, NAME, next) {
+  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_iter-define.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_iter-define.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY = __webpack_require__(/*! ./_library */ "./node_modules/core-js/modules/_library.js");
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/modules/_export.js");
+var redefine = __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js");
+var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js");
+var Iterators = __webpack_require__(/*! ./_iterators */ "./node_modules/core-js/modules/_iterators.js");
+var $iterCreate = __webpack_require__(/*! ./_iter-create */ "./node_modules/core-js/modules/_iter-create.js");
+var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "./node_modules/core-js/modules/_set-to-string-tag.js");
+var getPrototypeOf = __webpack_require__(/*! ./_object-gpo */ "./node_modules/core-js/modules/_object-gpo.js");
+var ITERATOR = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('iterator');
+var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+var FF_ITERATOR = '@@iterator';
+var KEYS = 'keys';
+var VALUES = 'values';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function (kind) {
+    if (!BUGGY && kind in proto) return proto[kind];
+    switch (kind) {
+      case KEYS: return function keys() { return new Constructor(this, kind); };
+      case VALUES: return function values() { return new Constructor(this, kind); };
+    } return function entries() { return new Constructor(this, kind); };
+  };
+  var TAG = NAME + ' Iterator';
+  var DEF_VALUES = DEFAULT == VALUES;
+  var VALUES_BUG = false;
+  var proto = Base.prototype;
+  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+  var $default = $native || getMethod(DEFAULT);
+  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+  var methods, key, IteratorPrototype;
+  // Fix native
+  if ($anyNative) {
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
+    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEF_VALUES && $native && $native.name !== VALUES) {
+    VALUES_BUG = true;
+    $default = function values() { return $native.call(this); };
+  }
+  // Define iterator
+  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG] = returnThis;
+  if (DEFAULT) {
+    methods = {
+      values: DEF_VALUES ? $default : getMethod(VALUES),
+      keys: IS_SET ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if (FORCED) for (key in methods) {
+      if (!(key in proto)) redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_iter-step.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/_iter-step.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_iterators.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/_iterators.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_library.js":
 /*!**************************************************!*\
   !*** ./node_modules/core-js/modules/_library.js ***!
@@ -584,6 +855,122 @@ module.exports = function (it) {
 /***/ (function(module, exports) {
 
 module.exports = false;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_meta.js":
+/*!***********************************************!*\
+  !*** ./node_modules/core-js/modules/_meta.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var META = __webpack_require__(/*! ./_uid */ "./node_modules/core-js/modules/_uid.js")('meta');
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/modules/_is-object.js");
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var setDesc = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js").f;
+var id = 0;
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+var FREEZE = !__webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js")(function () {
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function (it) {
+  setDesc(it, META, { value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  } });
+};
+var fastKey = function (it, create) {
+  // return primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function (it, create) {
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY: META,
+  NEED: false,
+  fastKey: fastKey,
+  getWeak: getWeak,
+  onFreeze: onFreeze
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-create.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-create.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var dPs = __webpack_require__(/*! ./_object-dps */ "./node_modules/core-js/modules/_object-dps.js");
+var enumBugKeys = __webpack_require__(/*! ./_enum-bug-keys */ "./node_modules/core-js/modules/_enum-bug-keys.js");
+var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "./node_modules/core-js/modules/_shared-key.js")('IE_PROTO');
+var Empty = function () { /* empty */ };
+var PROTOTYPE = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__(/*! ./_dom-create */ "./node_modules/core-js/modules/_dom-create.js")('iframe');
+  var i = enumBugKeys.length;
+  var lt = '<';
+  var gt = '>';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__(/*! ./_html */ "./node_modules/core-js/modules/_html.js").appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
 
 
 /***/ }),
@@ -611,6 +998,199 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/mo
   if ('value' in Attributes) O[P] = Attributes.value;
   return O;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-dps.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-dps.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/modules/_object-keys.js");
+
+module.exports = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js") ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-gopd.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-gopd.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/modules/_object-pie.js");
+var createDesc = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/modules/_property-desc.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "./node_modules/core-js/modules/_to-primitive.js");
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var IE8_DOM_DEFINE = __webpack_require__(/*! ./_ie8-dom-define */ "./node_modules/core-js/modules/_ie8-dom-define.js");
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js") ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-gopn-ext.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-gopn-ext.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var gOPN = __webpack_require__(/*! ./_object-gopn */ "./node_modules/core-js/modules/_object-gopn.js").f;
+var toString = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function (it) {
+  try {
+    return gOPN(it);
+  } catch (e) {
+    return windowNames.slice();
+  }
+};
+
+module.exports.f = function getOwnPropertyNames(it) {
+  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-gopn.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-gopn.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys = __webpack_require__(/*! ./_object-keys-internal */ "./node_modules/core-js/modules/_object-keys-internal.js");
+var hiddenKeys = __webpack_require__(/*! ./_enum-bug-keys */ "./node_modules/core-js/modules/_enum-bug-keys.js").concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return $keys(O, hiddenKeys);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-gops.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-gops.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-gpo.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-gpo.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var toObject = __webpack_require__(/*! ./_to-object */ "./node_modules/core-js/modules/_to-object.js");
+var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "./node_modules/core-js/modules/_shared-key.js")('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-keys-internal.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-keys-internal.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var arrayIndexOf = __webpack_require__(/*! ./_array-includes */ "./node_modules/core-js/modules/_array-includes.js")(false);
+var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "./node_modules/core-js/modules/_shared-key.js")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-keys.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-keys.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(/*! ./_object-keys-internal */ "./node_modules/core-js/modules/_object-keys-internal.js");
+var enumBugKeys = __webpack_require__(/*! ./_enum-bug-keys */ "./node_modules/core-js/modules/_enum-bug-keys.js");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_object-pie.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_object-pie.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
@@ -779,6 +1359,40 @@ module.exports = patchedExec;
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_set-to-string-tag.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/_set-to-string-tag.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js").f;
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var TAG = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_shared-key.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_shared-key.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(/*! ./_shared */ "./node_modules/core-js/modules/_shared.js")('keys');
+var uid = __webpack_require__(/*! ./_uid */ "./node_modules/core-js/modules/_uid.js");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_shared.js":
 /*!*************************************************!*\
   !*** ./node_modules/core-js/modules/_shared.js ***!
@@ -830,6 +1444,24 @@ module.exports = function (TO_STRING) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_to-absolute-index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/_to-absolute-index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(/*! ./_to-integer */ "./node_modules/core-js/modules/_to-integer.js");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_to-integer.js":
 /*!*****************************************************!*\
   !*** ./node_modules/core-js/modules/_to-integer.js ***!
@@ -842,6 +1474,23 @@ var ceil = Math.ceil;
 var floor = Math.floor;
 module.exports = function (it) {
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_to-iobject.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_to-iobject.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(/*! ./_iobject */ "./node_modules/core-js/modules/_iobject.js");
+var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/modules/_defined.js");
+module.exports = function (it) {
+  return IObject(defined(it));
 };
 
 
@@ -919,6 +1568,38 @@ module.exports = function (key) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_wks-define.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/modules/_wks-define.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modules/_global.js");
+var core = __webpack_require__(/*! ./_core */ "./node_modules/core-js/modules/_core.js");
+var LIBRARY = __webpack_require__(/*! ./_library */ "./node_modules/core-js/modules/_library.js");
+var wksExt = __webpack_require__(/*! ./_wks-ext */ "./node_modules/core-js/modules/_wks-ext.js");
+var defineProperty = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js").f;
+module.exports = function (name) {
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_wks-ext.js":
+/*!**************************************************!*\
+  !*** ./node_modules/core-js/modules/_wks-ext.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_wks.js":
 /*!**********************************************!*\
   !*** ./node_modules/core-js/modules/_wks.js ***!
@@ -941,6 +1622,52 @@ $exports.store = store;
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es6.array.iterator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.array.iterator.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var addToUnscopables = __webpack_require__(/*! ./_add-to-unscopables */ "./node_modules/core-js/modules/_add-to-unscopables.js");
+var step = __webpack_require__(/*! ./_iter-step */ "./node_modules/core-js/modules/_iter-step.js");
+var Iterators = __webpack_require__(/*! ./_iterators */ "./node_modules/core-js/modules/_iterators.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = __webpack_require__(/*! ./_iter-define */ "./node_modules/core-js/modules/_iter-define.js")(Array, 'Array', function (iterated, kind) {
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function () {
+  var O = this._t;
+  var kind = this._k;
+  var index = this._i++;
+  if (!O || index >= O.length) {
+    this._t = undefined;
+    return step(1);
+  }
+  if (kind == 'keys') return step(0, index);
+  if (kind == 'values') return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es6.regexp.exec.js":
 /*!*********************************************************!*\
   !*** ./node_modules/core-js/modules/es6.regexp.exec.js ***!
@@ -957,6 +1684,22 @@ __webpack_require__(/*! ./_export */ "./node_modules/core-js/modules/_export.js"
   forced: regexpExec !== /./.exec
 }, {
   exec: regexpExec
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es6.regexp.flags.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.regexp.flags.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 21.2.5.3 get RegExp.prototype.flags()
+if (__webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js") && /./g.flags != 'g') __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js").f(RegExp.prototype, 'flags', {
+  configurable: true,
+  get: __webpack_require__(/*! ./_flags */ "./node_modules/core-js/modules/_flags.js")
 });
 
 
@@ -1092,29 +1835,446 @@ __webpack_require__(/*! ./_fix-re-wks */ "./node_modules/core-js/modules/_fix-re
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es6.regexp.to-string.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.regexp.to-string.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+__webpack_require__(/*! ./es6.regexp.flags */ "./node_modules/core-js/modules/es6.regexp.flags.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var $flags = __webpack_require__(/*! ./_flags */ "./node_modules/core-js/modules/_flags.js");
+var DESCRIPTORS = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js");
+var TO_STRING = 'toString';
+var $toString = /./[TO_STRING];
+
+var define = function (fn) {
+  __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js")(RegExp.prototype, TO_STRING, fn, true);
+};
+
+// 21.2.5.14 RegExp.prototype.toString()
+if (__webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js")(function () { return $toString.call({ source: 'a', flags: 'b' }) != '/a/b'; })) {
+  define(function toString() {
+    var R = anObject(this);
+    return '/'.concat(R.source, '/',
+      'flags' in R ? R.flags : !DESCRIPTORS && R instanceof RegExp ? $flags.call(R) : undefined);
+  });
+// FF44- RegExp#toString has a wrong name
+} else if ($toString.name != TO_STRING) {
+  define(function toString() {
+    return $toString.call(this);
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es6.symbol.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.symbol.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// ECMAScript 6 symbols shim
+var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modules/_global.js");
+var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
+var DESCRIPTORS = __webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/modules/_descriptors.js");
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/modules/_export.js");
+var redefine = __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js");
+var META = __webpack_require__(/*! ./_meta */ "./node_modules/core-js/modules/_meta.js").KEY;
+var $fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js");
+var shared = __webpack_require__(/*! ./_shared */ "./node_modules/core-js/modules/_shared.js");
+var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "./node_modules/core-js/modules/_set-to-string-tag.js");
+var uid = __webpack_require__(/*! ./_uid */ "./node_modules/core-js/modules/_uid.js");
+var wks = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js");
+var wksExt = __webpack_require__(/*! ./_wks-ext */ "./node_modules/core-js/modules/_wks-ext.js");
+var wksDefine = __webpack_require__(/*! ./_wks-define */ "./node_modules/core-js/modules/_wks-define.js");
+var enumKeys = __webpack_require__(/*! ./_enum-keys */ "./node_modules/core-js/modules/_enum-keys.js");
+var isArray = __webpack_require__(/*! ./_is-array */ "./node_modules/core-js/modules/_is-array.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/modules/_is-object.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "./node_modules/core-js/modules/_to-primitive.js");
+var createDesc = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/modules/_property-desc.js");
+var _create = __webpack_require__(/*! ./_object-create */ "./node_modules/core-js/modules/_object-create.js");
+var gOPNExt = __webpack_require__(/*! ./_object-gopn-ext */ "./node_modules/core-js/modules/_object-gopn-ext.js");
+var $GOPD = __webpack_require__(/*! ./_object-gopd */ "./node_modules/core-js/modules/_object-gopd.js");
+var $DP = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js");
+var $keys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/modules/_object-keys.js");
+var gOPD = $GOPD.f;
+var dP = $DP.f;
+var gOPN = gOPNExt.f;
+var $Symbol = global.Symbol;
+var $JSON = global.JSON;
+var _stringify = $JSON && $JSON.stringify;
+var PROTOTYPE = 'prototype';
+var HIDDEN = wks('_hidden');
+var TO_PRIMITIVE = wks('toPrimitive');
+var isEnum = {}.propertyIsEnumerable;
+var SymbolRegistry = shared('symbol-registry');
+var AllSymbols = shared('symbols');
+var OPSymbols = shared('op-symbols');
+var ObjectProto = Object[PROTOTYPE];
+var USE_NATIVE = typeof $Symbol == 'function';
+var QObject = global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = DESCRIPTORS && $fails(function () {
+  return _create(dP({}, 'a', {
+    get: function () { return dP(this, 'a', { value: 7 }).a; }
+  })).a != 7;
+}) ? function (it, key, D) {
+  var protoDesc = gOPD(ObjectProto, key);
+  if (protoDesc) delete ObjectProto[key];
+  dP(it, key, D);
+  if (protoDesc && it !== ObjectProto) dP(ObjectProto, key, protoDesc);
+} : dP;
+
+var wrap = function (tag) {
+  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
+  sym._k = tag;
+  return sym;
+};
+
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
+  return typeof it == 'symbol';
+} : function (it) {
+  return it instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(it, key, D) {
+  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
+  anObject(it);
+  key = toPrimitive(key, true);
+  anObject(D);
+  if (has(AllSymbols, key)) {
+    if (!D.enumerable) {
+      if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
+      D = _create(D, { enumerable: createDesc(0, false) });
+    } return setSymbolDesc(it, key, D);
+  } return dP(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P) {
+  anObject(it);
+  var keys = enumKeys(P = toIObject(P));
+  var i = 0;
+  var l = keys.length;
+  var key;
+  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P) {
+  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key) {
+  var E = isEnum.call(this, key = toPrimitive(key, true));
+  if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return false;
+  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
+  it = toIObject(it);
+  key = toPrimitive(key, true);
+  if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return;
+  var D = gOPD(it, key);
+  if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it) {
+  var names = gOPN(toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
+  var IS_OP = it === ObjectProto;
+  var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
+  } return result;
+};
+
+// 19.4.1.1 Symbol([description])
+if (!USE_NATIVE) {
+  $Symbol = function Symbol() {
+    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
+    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function (value) {
+      if (this === ObjectProto) $set.call(OPSymbols, value);
+      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, createDesc(1, value));
+    };
+    if (DESCRIPTORS && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
+    return wrap(tag);
+  };
+  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
+    return this._k;
+  });
+
+  $GOPD.f = $getOwnPropertyDescriptor;
+  $DP.f = $defineProperty;
+  __webpack_require__(/*! ./_object-gopn */ "./node_modules/core-js/modules/_object-gopn.js").f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/modules/_object-pie.js").f = $propertyIsEnumerable;
+  __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/modules/_object-gops.js").f = $getOwnPropertySymbols;
+
+  if (DESCRIPTORS && !__webpack_require__(/*! ./_library */ "./node_modules/core-js/modules/_library.js")) {
+    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+  }
+
+  wksExt.f = function (name) {
+    return wrap(wks(name));
+  };
+}
+
+$export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
+
+for (var es6Symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), j = 0; es6Symbols.length > j;)wks(es6Symbols[j++]);
+
+for (var wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k;) wksDefine(wellKnownSymbols[k++]);
+
+$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function (key) {
+    return has(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
+  },
+  useSetter: function () { setter = true; },
+  useSimple: function () { setter = false; }
+});
+
+$export($export.S + $export.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it) {
+    var args = [it];
+    var i = 1;
+    var replacer, $replacer;
+    while (arguments.length > i) args.push(arguments[i++]);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
+      if (!isSymbol(value)) return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js")($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+setToStringTag($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+setToStringTag(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+setToStringTag(global.JSON, 'JSON', true);
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es7.symbol.async-iterator.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/modules/es7.symbol.async-iterator.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ./_wks-define */ "./node_modules/core-js/modules/_wks-define.js")('asyncIterator');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/web.dom.iterable.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/web.dom.iterable.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $iterators = __webpack_require__(/*! ./es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+var getKeys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/modules/_object-keys.js");
+var redefine = __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js");
+var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modules/_global.js");
+var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js");
+var Iterators = __webpack_require__(/*! ./_iterators */ "./node_modules/core-js/modules/_iterators.js");
+var wks = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js");
+var ITERATOR = wks('iterator');
+var TO_STRING_TAG = wks('toStringTag');
+var ArrayValues = Iterators.Array;
+
+var DOMIterables = {
+  CSSRuleList: true, // TODO: Not spec compliant, should be false.
+  CSSStyleDeclaration: false,
+  CSSValueList: false,
+  ClientRectList: false,
+  DOMRectList: false,
+  DOMStringList: false,
+  DOMTokenList: true,
+  DataTransferItemList: false,
+  FileList: false,
+  HTMLAllCollection: false,
+  HTMLCollection: false,
+  HTMLFormElement: false,
+  HTMLSelectElement: false,
+  MediaList: true, // TODO: Not spec compliant, should be false.
+  MimeTypeArray: false,
+  NamedNodeMap: false,
+  NodeList: true,
+  PaintRequestList: false,
+  Plugin: false,
+  PluginArray: false,
+  SVGLengthList: false,
+  SVGNumberList: false,
+  SVGPathSegList: false,
+  SVGPointList: false,
+  SVGStringList: false,
+  SVGTransformList: false,
+  SourceBufferList: false,
+  StyleSheetList: true, // TODO: Not spec compliant, should be false.
+  TextTrackCueList: false,
+  TextTrackList: false,
+  TouchList: false
+};
+
+for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++) {
+  var NAME = collections[i];
+  var explicit = DOMIterables[NAME];
+  var Collection = global[NAME];
+  var proto = Collection && Collection.prototype;
+  var key;
+  if (proto) {
+    if (!proto[ITERATOR]) hide(proto, ITERATOR, ArrayValues);
+    if (!proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
+    Iterators[NAME] = ArrayValues;
+    if (explicit) for (key in $iterators) if (!proto[key]) redefine(proto, key, $iterators[key], true);
+  }
+}
+
+
+/***/ }),
+
 /***/ "./src/board.js":
 /*!**********************!*\
   !*** ./src/board.js ***!
   \**********************/
-/*! exports provided: default */
+/*! exports provided: default, kingBlack, kingWhite */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "kingBlack", function() { return kingBlack; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "kingWhite", function() { return kingWhite; });
+/* harmony import */ var _pieces_rook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pieces/rook */ "./src/pieces/rook.js");
+/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
+/* harmony import */ var _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pieces/bishop */ "./src/pieces/bishop.js");
+/* harmony import */ var _pieces_queen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pieces/queen */ "./src/pieces/queen.js");
+/* harmony import */ var _pieces_knight__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pieces/knight */ "./src/pieces/knight.js");
+
+
+
+
+
 
 const board = new Array(8);
 
 for (let i = 0; i < 8; i++) {
   board[i] = new Array(8);
-} //mamy pustą tablice tu trzeba zaimportować figury wedle przykładu dla pionka
+}
 
+let pawn;
 
-let pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__["default"](6, 0, 'white');
-board[pawn.x][pawn.y] = pawn;
-pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_0__["default"](6, 1, 'white');
-board[pawn.x][pawn.y] = pawn;
+for (let y = 0; y < 8; y++) {
+  pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__["default"](1, y, 'black');
+  board[pawn.x][pawn.y] = pawn;
+}
+
+for (let y = 0; y < 8; y++) {
+  pawn = new _pieces_pawn__WEBPACK_IMPORTED_MODULE_1__["default"](6, y, 'white');
+  board[pawn.x][pawn.y] = pawn;
+}
+
+let rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__["default"](7, 0, 'white');
+board[rook.x][rook.y] = rook;
+rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__["default"](7, 7, 'white');
+board[rook.x][rook.y] = rook;
+rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0, 'black');
+board[rook.x][rook.y] = rook;
+rook = new _pieces_rook__WEBPACK_IMPORTED_MODULE_0__["default"](0, 7, 'black');
+board[rook.x][rook.y] = rook;
+let bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](0, 2, 'black');
+board[bishop.x][bishop.y] = bishop;
+bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](0, 5, 'black');
+board[bishop.x][bishop.y] = bishop;
+bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](7, 2, 'white');
+board[bishop.x][bishop.y] = bishop;
+bishop = new _pieces_bishop__WEBPACK_IMPORTED_MODULE_3__["default"](7, 5, 'white');
+board[bishop.x][bishop.y] = bishop;
+let queen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_4__["default"](7, 3, 'white');
+board[queen.x][queen.y] = queen;
+queen = new _pieces_queen__WEBPACK_IMPORTED_MODULE_4__["default"](0, 3, 'black');
+board[queen.x][queen.y] = queen;
+let knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 1, 'white');
+board[knight.x][knight.y] = knight;
+knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](7, 6, 'white');
+board[knight.x][knight.y] = knight;
+knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 1, 'black');
+board[knight.x][knight.y] = knight;
+knight = new _pieces_knight__WEBPACK_IMPORTED_MODULE_5__["default"](0, 6, 'black');
+board[knight.x][knight.y] = knight;
+const kingWhite = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](7, 4, 'white');
+board[kingWhite.x][kingWhite.y] = kingWhite;
+const kingBlack = new _pieces_king__WEBPACK_IMPORTED_MODULE_2__["default"](0, 4, 'black');
+board[kingBlack.x][kingBlack.y] = kingBlack;
 /* harmony default export */ __webpack_exports__["default"] = (board);
+
+
 
 /***/ }),
 
@@ -1127,11 +2287,190 @@ board[pawn.x][pawn.y] = pawn;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
- //checkWinner();
-//changePlayer(); to wszystko na później
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.regexp.to-string */ "./node_modules/core-js/modules/es6.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.regexp.replace */ "./node_modules/core-js/modules/es6.regexp.replace.js");
+/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./board */ "./src/board.js");
+/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
 
-window.onload = _setup__WEBPACK_IMPORTED_MODULE_0__["default"];
+
+
+
+
+
+ //checkWinner();
+
+const chessBoard = document.getElementById('board');
+const changePlayer = {
+  _turn: ['white', 'black'],
+
+  get turn() {
+    return this._turn[0];
+  },
+
+  flip() {
+    this._turn.reverse();
+  }
+
+};
+
+const getCord = e => {
+  if (e.target.localName === 'div') {
+    return [e.target.id[0], e.target.id[2]];
+  } else {
+    return [e.target.parentNode.id[0], e.target.parentNode.id[2]];
+  }
+};
+
+const possibleMoves = () => {
+  //console.log('LEGITNE: '+ pieceElement.findLegalMoves());
+  for (let posmov of pieceElement.findLegalMoves()) {
+    document.getElementById(posmov).className += ' possibleMove';
+  }
+
+  return pieceElement.findLegalMoves() == '' ? false : true;
+};
+
+const moved = cord => {
+  pieceElement.move(cord);
+  clearMoves(cord);
+};
+
+const addSelection = cord => {
+  document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className += ' selected';
+};
+
+const remSelection = cord => {
+  document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className = document.getElementById(`${cord[0]},${cord[1]}`).firstElementChild.className.replace('selected', '');
+};
+
+const clearMoves = cord => {
+  for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_4__["default"].length; x++) {
+    for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_4__["default"][x].length; y++) {
+      document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, '');
+    }
+  }
+};
+
+let whiteDoCastling = false;
+let blackDoCastling = false;
+
+const whiteCastling = () => {
+  if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][7].move([`7`, `5`]);
+    whiteDoCastling = true;
+  } else if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][0].move([`7`, `3`]);
+    whiteDoCastling = true;
+  }
+};
+
+const blackCastling = () => {
+  if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][7].move([`0`, `5`]);
+    blackDoCastling = true;
+  } else if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][0].move([`0`, `3`]);
+    blackDoCastling = true;
+  }
+};
+
+let pieceElement = false;
+chessBoard.addEventListener('click', e => {
+  let squareCords = getCord(e);
+
+  if (pieceElement) {
+    //jeśli bierek zaznaczony
+    if (squareCords[0] == pieceElement.x && squareCords[1] == pieceElement.y) {
+      console.log('To samo pole');
+      clearMoves(squareCords);
+      remSelection([pieceElement.x, pieceElement.y]);
+    } else {
+      console.log(squareCords.toString());
+      console.log(pieceElement.findLegalMoves());
+
+      if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
+        moved(squareCords);
+        changePlayer.flip();
+        console.log('Ruszam');
+
+        if (!whiteDoCastling) {
+          whiteCastling();
+        }
+
+        if (!blackDoCastling) {
+          blackCastling();
+        }
+
+        if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_5__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
+          //jeśli można dokonać promocji pionka
+          pieceElement.promote(squareCords, pieceElement.side);
+        }
+
+        if (!whiteDoCastling) {
+          whiteCastling();
+        }
+
+        if (!blackDoCastling) {
+          blackCastling();
+        }
+      } else {
+        console.log('Nie Ruszam');
+        clearMoves(squareCords);
+        remSelection([pieceElement.x, pieceElement.y]);
+      }
+    }
+
+    pieceElement = false;
+  } else {
+    // jesli bierek niezaznaczony
+    if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]].side == changePlayer.turn) {
+      // jesli na polu bierek i kolor odpowiada kolorowi rundy
+      console.log('zaznaczam bierka'); // touched(squareCords);
+
+      pieceElement = _board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]];
+      addSelection([pieceElement.x, pieceElement.y]);
+
+      if (!possibleMoves()) {
+        remSelection([pieceElement.x, pieceElement.y]);
+        pieceElement = false;
+      }
+    } else {
+      //jesli na polu brak bierka
+      console.log('na tym polu nie ma bierka');
+      return;
+    }
+  }
+});
+
+const checkMate = () => {
+  let white = 0;
+  let black = 0;
+  console.log(`${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].y}` + "TOTOTOTOTOT");
+
+  for (let x = 0; x < 8; x++) {
+    for (let y = 0; y < 8; y++) {
+      if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y] != null) {
+        _board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].findLegalMoves().forEach(element => {
+          if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].side != 'white' && element === `${_board__WEBPACK_IMPORTED_MODULE_4__["kingWhite"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingWhite"].y}`) {
+            console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");
+          }
+
+          if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].side != 'black' && element === `${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].y}`) {
+            console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");
+          }
+        });
+      }
+    }
+  }
+};
+
+window.onload = _setup__WEBPACK_IMPORTED_MODULE_3__["default"];
 
 /***/ }),
 
@@ -1144,26 +2483,55 @@ window.onload = _setup__WEBPACK_IMPORTED_MODULE_0__["default"];
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../board */ "./src/board.js");
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.symbol.async-iterator */ "./node_modules/core-js/modules/es7.symbol.async-iterator.js");
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 class Piece {
   constructor(x, y, side) {
     this.x = x;
     this.y = y;
+    this.wasMoved = false;
     this.side = side; //'black' or 'white'
   }
 
-  move(id) {
-    const newX = id[0];
-    const newY = id[2]; //clearing previous place
+  move(_ref) {
+    let _ref2 = _slicedToArray(_ref, 2),
+        newX = _ref2[0],
+        newY = _ref2[1];
 
-    _board__WEBPACK_IMPORTED_MODULE_0__["default"][this.x][this.y] = null;
+    newX = parseInt(newX);
+    newY = parseInt(newY); //setting new in new place
+
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][newX][newY] = _board__WEBPACK_IMPORTED_MODULE_3__["default"][this.x][this.y]; //clearing previous place
+
+    _board__WEBPACK_IMPORTED_MODULE_3__["default"][this.x][this.y] = null;
     document.getElementById(`${this.x},${this.y}`).innerHTML = ""; //setting new
 
     this.x = newX;
-    this.y = newY;
-    document.getElementById(id).innerHTML = this.display;
+    this.y = newY; // console.log(typeof (this.x), typeof (this.y))
+
+    this.wasMoved ? this.firstMove = false : this.firstMove = true;
+    console.log(newY);
+    this.wasMoved = true;
+    document.getElementById(`${newX},${newY}`).innerHTML = this.display;
   }
 
   findLegalMoves() {
@@ -1176,6 +2544,170 @@ class Piece {
 
 /***/ }),
 
+/***/ "./src/pieces/bishop.js":
+/*!******************************!*\
+  !*** ./src/pieces/bishop.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+class Bishop extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'bishop';
+    this.display = `<i class="fas fa-chess-bishop ${side}"></i>`; //fontawesome bishop
+  }
+
+  findLegalMoves() {
+    const possibleMoves = [];
+    const dx = [-1, -1, 1, 1];
+    const dy = [-1, 1, -1, 1];
+
+    for (let direction = 0; direction < 4; direction++) {
+      for (let counter = 1; counter < 8; counter++) {
+        let newX = parseInt(this.x) + dx[direction] * counter;
+        let newY = parseInt(this.y) + dy[direction] * counter;
+
+        if (0 <= newX && newX < 8 && 0 <= newY && newY < 8) {
+          if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY] != null) {
+            if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY].side != this.side) {
+              possibleMoves.push(`${newX},${newY}`);
+            }
+
+            break;
+          } else {
+            possibleMoves.push(`${newX},${newY}`);
+          }
+        }
+      }
+    }
+
+    return possibleMoves;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Bishop);
+
+/***/ }),
+
+/***/ "./src/pieces/king.js":
+/*!****************************!*\
+  !*** ./src/pieces/king.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+class King extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'king';
+    this.display = `<i class="fas fa-chess-king ${side}"></i>`; //fontawesome king
+
+    this.firstMove = false;
+    this.castling = false;
+  }
+
+  findLegalMoves() {
+    const possibleMoves = [];
+    /* tablica z zakresem dozwolonych ruchów - dla osi X i Y */
+
+    const ruchyXY = [[-1, -1, -1, 0, 1, 1, 1, 0], [-1, 0, 1, 1, 1, 0, -1, -1]];
+
+    for (let direction = 0; direction < 8; direction++) {
+      let newX = this.x + ruchyXY[0][direction];
+      let newY = this.y + ruchyXY[1][direction]; // console.log(newX, newY)
+      // console.log(board[this.x][this.y])
+
+      if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
+        if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY] == undefined || _board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY].side != this.side) {
+          // console.log(newX, newY);
+          console.log(_board__WEBPACK_IMPORTED_MODULE_1__["default"][newX][newY]);
+          possibleMoves.push(`${newX},${newY}`);
+        }
+      }
+    } //Small castling
+
+
+    if (!this.wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][7].wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][this.y + 1]) {
+      possibleMoves.push(`${this.x},${this.y + 2}`);
+    } //Big castling
+
+
+    if (!this.wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][0].wasMoved && !_board__WEBPACK_IMPORTED_MODULE_1__["default"][this.x][this.y - 1]) {
+      possibleMoves.push(`${this.x},${this.y - 2}`);
+    }
+
+    return possibleMoves;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (King);
+
+/***/ }),
+
+/***/ "./src/pieces/knight.js":
+/*!******************************!*\
+  !*** ./src/pieces/knight.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+class Knight extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'knight';
+    this.display = `<i class="fas fa-chess-knight ${side}"></i>`; //fontawesome knight
+  }
+
+  findLegalMoves() {
+    const possibleMoves = [];
+    let possX, possY;
+
+    for (let i of [-2, -1, 1, 2]) {
+      possX = this.x + i;
+
+      for (let j of [-1, 1]) {
+        possY = this.y + j * (3 - Math.abs(i));
+
+        if (possX >= 0 && possX <= 7 && possY >= 0 && possY <= 7) {
+          if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][possX][possY] != null ? _board__WEBPACK_IMPORTED_MODULE_1__["default"][possX][possY].side != this.side : true) possibleMoves.push(`${possX},${possY}`);
+        }
+      }
+    }
+
+    console.log(possibleMoves);
+    return possibleMoves;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Knight);
+
+/***/ }),
+
 /***/ "./src/pieces/pawn.js":
 /*!****************************!*\
   !*** ./src/pieces/pawn.js ***!
@@ -1185,10 +2717,23 @@ class Piece {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board */ "./src/board.js");
+/* harmony import */ var _queen__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./queen */ "./src/pieces/queen.js");
+/* harmony import */ var _knight__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./knight */ "./src/pieces/knight.js");
+/* harmony import */ var _bishop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bishop */ "./src/pieces/bishop.js");
+/* harmony import */ var _rook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./rook */ "./src/pieces/rook.js");
 
 
-class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
+
+
+
+
+
+
+class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
   constructor(x, y, side) {
     super(x, y, side);
     this.name = 'pawn';
@@ -1196,24 +2741,444 @@ class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
   }
 
   findLegalMoves() {
-    // console.log(this.x, this.y)
+    //console.log(this.x, this.y);
     const possibleMoves = [];
+    console.log(possibleMoves);
 
     if (this.side == 'white') {
-      this.x - 1 > 0 && possibleMoves.push(`${this.x - 1},${this.y}`);
-      this.x - 2 > 0 && possibleMoves.push(`${this.x - 2},${this.y}`);
+      if (this.x == 6) {
+        possibleMoves.push(`${4},${this.y}`);
+        possibleMoves.push(`${5},${this.y}`);
+      } else {
+        parseInt(this.x) - 1 >= 0 && possibleMoves.push(`${parseInt(this.x) - 1},${this.y}`);
+      }
+    }
+
+    if (this.side == 'black') {
+      if (this.x == 1) {
+        possibleMoves.push(`${2},${this.y}`);
+        possibleMoves.push(`${3},${this.y}`);
+      } else {
+        parseInt(this.x) + 1 <= 7 && possibleMoves.push(`${parseInt(this.x) + 1},${this.y}`);
+      }
     }
 
     return possibleMoves;
   }
 
-  promote() {}
+  promote(cord, side) {
+    console.log('promocja pionka');
+    let newX = parseInt(cord[0]);
+    let newY = parseInt(cord[1]);
+    let promo = document.createElement('div');
+    promo.id = 'promo';
+    promo.style.left = newY * 10 + 'vh';
+
+    if (side == 'white') {
+      promo.style.top = '10vh';
+    } else {
+      promo.style.bottom = '10vh';
+    }
+
+    promo.innerHTML = `<div data-piece="queen" class="square"><i class="fas fa-chess-queen ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="knight" class="square"><i class="fas fa-chess-knight ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="bishop" class="square"><i class="fas fa-chess-bishop ${side}"></i></div>`;
+    promo.innerHTML += `<div data-piece="rook" class="square"><i class="fas fa-chess-rook ${side}" ></i></div>`;
+    document.getElementById('board').appendChild(promo);
+    Array.from(promo.getElementsByTagName('div')).forEach(function (element) {
+      element.addEventListener('click', e => {
+        e.stopPropagation();
+        let piece = e.currentTarget.dataset.piece; //console.log(piece);
+
+        let promoteTo;
+
+        switch (piece) {
+          case 'queen':
+            promoteTo = new _queen__WEBPACK_IMPORTED_MODULE_3__["default"](newX, newY, side);
+            break;
+
+          case 'knight':
+            promoteTo = new _knight__WEBPACK_IMPORTED_MODULE_4__["default"](newX, newY, side);
+            break;
+
+          case 'bishop':
+            promoteTo = new _bishop__WEBPACK_IMPORTED_MODULE_5__["default"](newX, newY, side);
+            break;
+
+          case 'rook':
+            promoteTo = new _rook__WEBPACK_IMPORTED_MODULE_6__["default"](newX, newY, side);
+            break;
+        }
+
+        _board__WEBPACK_IMPORTED_MODULE_2__["default"][newX][newY] = promoteTo;
+        document.getElementById(`${newX},${newY}`).innerHTML = promoteTo.display;
+        promo.parentElement.removeChild(promo);
+        promo = null;
+      });
+    });
+  }
 
   enPassant() {}
 
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Pawn);
+
+/***/ }),
+
+/***/ "./src/pieces/queen.js":
+/*!*****************************!*\
+  !*** ./src/pieces/queen.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+
+class Queen extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'queen';
+    this.display = `<i class="fas fa-chess-queen ${side}"></i>`; //fontawesome queen
+  }
+
+  findLegalMoves() {
+    let possibleMoves = []; //movement rock
+
+    for (let i = 0; i < _board__WEBPACK_IMPORTED_MODULE_2__["default"].length; i++) {
+      possibleMoves[i] = [this.x, i];
+      possibleMoves[i + _board__WEBPACK_IMPORTED_MODULE_2__["default"].length] = [i, this.y];
+    }
+
+    possibleMoves.forEach(el => {
+      if (el[0] == [this.x] && el[1] == [this.y]) {
+        delete possibleMoves[possibleMoves.indexOf(el)];
+      }
+    }); //Tworzę tablice, które zawierają położenie białych i czarnych figur na szachownicy.
+
+    const blackFigure = [];
+    const whiteFigure = [];
+
+    for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_2__["default"].length; x++) {
+      blackFigure[x] = [];
+      whiteFigure[x] = [];
+
+      for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_2__["default"][x].length; y++) {
+        if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y] && _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].side == "black") {
+          blackFigure[x][y] = [];
+          blackFigure[x][y][0] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].x;
+          blackFigure[x][y][1] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].y;
+          blackFigure[x][y][2] = "black";
+        }
+
+        if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y] && _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].side == "white") {
+          whiteFigure[x][y] = [];
+          whiteFigure[x][y][0] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].x;
+          whiteFigure[x][y][1] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].y;
+          whiteFigure[x][y][2] = "white";
+        }
+      }
+    }
+
+    const imposibleMoves = []; //Wyszukuję pola, na których znajdują się białe figury
+
+    if (this.side == "white") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < whiteFigure.length; a++) {
+          for (let b = 0; b < whiteFigure[a].length; b++) {
+            if (whiteFigure[a][b]) {
+              for (let c = 0; c < whiteFigure[a][b].length; c++) {
+                if (el[0] == whiteFigure[a][b][0] && el[1] == whiteFigure[a][b][1] && whiteFigure[a][b][2] == "white") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      });
+    } // Wyszukuję pola, na których znajdują się czarne figury
+
+
+    if (this.side == "black") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < blackFigure.length; a++) {
+          for (let b = 0; b < blackFigure[a].length; b++) {
+            if (blackFigure[a][b]) {
+              for (let c = 0; c < blackFigure[a][b].length; c++) {
+                if (el[0] == blackFigure[a][b][0] && el[1] == blackFigure[a][b][1] && blackFigure[a][b][2] == "black") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      });
+    } //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury oraz wyłączenie możliwości przeskakiwania ich.
+
+
+    possibleMoves.forEach(el => {
+      imposibleMoves.forEach(move => {
+        if (el[1] == move[1]) {
+          possibleMoves.forEach(i => {
+            if (i[1] == move[1] && i[0] < this.x && i[0] < move[0] && move[0] < this.x || i[1] == move[1] && i[0] > this.x && i[0] > move[0] && move[0] > this.x) {
+              delete possibleMoves[possibleMoves.indexOf(i)];
+            }
+          });
+        } else if (el[0] == move[0]) {
+          possibleMoves.forEach(i => {
+            if (i[0] == move[0] && i[1] < this.y && i[1] < move[1] && move[1] < this.y || i[0] == move[0] && i[1] > this.y && i[1] > move[1] && move[1] > this.y) {
+              delete possibleMoves[possibleMoves.indexOf(i)];
+            }
+          });
+        }
+
+        if (el == move) {
+          delete possibleMoves[possibleMoves.indexOf(el)];
+        }
+      });
+    }); //Usunięcie możliwości przeskakiwania figur przeciwnika
+
+    if (this.side == "white") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < blackFigure.length; j++) {
+          for (let k = 0; k < blackFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (blackFigure[j][k]) {
+                if (possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] < blackFigure[j][k][0] && possibleMoves[i][0] < this.x && blackFigure[j][k][0] < this.x || possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] > blackFigure[j][k][0] && possibleMoves[i][0] > this.x && blackFigure[j][k][0] > this.x || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] > blackFigure[j][k][1] && possibleMoves[i][1] > this.y && blackFigure[j][k][1] > this.y || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] < blackFigure[j][k][1] && possibleMoves[i][1] < this.y && blackFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (this.side == "black") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < whiteFigure.length; j++) {
+          for (let k = 0; k < whiteFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (whiteFigure[j][k]) {
+                if (possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] < whiteFigure[j][k][0] && possibleMoves[i][0] < this.x && whiteFigure[j][k][0] < this.x || possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] > whiteFigure[j][k][0] && possibleMoves[i][0] > this.x && whiteFigure[j][k][0] > this.x || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] > whiteFigure[j][k][1] && possibleMoves[i][1] > this.y && whiteFigure[j][k][1] > this.y || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] < whiteFigure[j][k][1] && possibleMoves[i][1] < this.y && whiteFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    possibleMoves = possibleMoves.filter(el => el);
+    possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`); //movement bishop
+
+    const dx = [-1, -1, 1, 1];
+    const dy = [-1, 1, -1, 1];
+
+    for (let direction = 0; direction < 4; direction++) {
+      for (let counter = 1; counter < 8; counter++) {
+        let newX = parseInt(this.x) + dx[direction] * counter;
+        let newY = parseInt(this.y) + dy[direction] * counter;
+
+        if (0 <= newX && newX < 8 && 0 <= newY && newY < 8) {
+          if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][newX][newY] != null) {
+            if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][newX][newY].side != this.side) {
+              possibleMoves.push(`${newX},${newY}`);
+            }
+
+            break;
+          } else {
+            possibleMoves.push(`${newX},${newY}`);
+          }
+        }
+      }
+    }
+
+    console.log(possibleMoves);
+    return possibleMoves;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Queen);
+
+/***/ }),
+
+/***/ "./src/pieces/rook.js":
+/*!****************************!*\
+  !*** ./src/pieces/rook.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Piece__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Piece */ "./src/pieces/Piece.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board */ "./src/board.js");
+
+
+
+
+class Rook extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  constructor(x, y, side) {
+    super(x, y, side);
+    this.name = 'rook';
+    this.display = `<i class="fas fa-chess-rook ${side}"></i>`; //fontawesome rook
+  }
+
+  findLegalMoves() {
+    let possibleMoves = [];
+
+    for (let i = 0; i < _board__WEBPACK_IMPORTED_MODULE_2__["default"].length; i++) {
+      possibleMoves[i] = [this.x, i];
+      possibleMoves[i + _board__WEBPACK_IMPORTED_MODULE_2__["default"].length] = [i, this.y];
+    }
+
+    possibleMoves.forEach(el => {
+      if (el[0] == [this.x] && el[1] == [this.y]) {
+        delete possibleMoves[possibleMoves.indexOf(el)];
+      }
+    }); //Tworzę tablice, które zawierają położenie białych i czarnych figur na szachownicy.
+
+    const blackFigure = [];
+    const whiteFigure = [];
+
+    for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_2__["default"].length; x++) {
+      blackFigure[x] = [];
+      whiteFigure[x] = [];
+
+      for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_2__["default"][x].length; y++) {
+        if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y] && _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].side == "black") {
+          blackFigure[x][y] = [];
+          blackFigure[x][y][0] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].x;
+          blackFigure[x][y][1] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].y;
+          blackFigure[x][y][2] = "black";
+        }
+
+        if (_board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y] && _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].side == "white") {
+          whiteFigure[x][y] = [];
+          whiteFigure[x][y][0] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].x;
+          whiteFigure[x][y][1] = _board__WEBPACK_IMPORTED_MODULE_2__["default"][x][y].y;
+          whiteFigure[x][y][2] = "white";
+        }
+      }
+    }
+
+    const imposibleMoves = []; //Wyszukuję pola, na których znajdują się białe figury
+
+    if (this.side == "white") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < whiteFigure.length; a++) {
+          for (let b = 0; b < whiteFigure[a].length; b++) {
+            if (whiteFigure[a][b]) {
+              for (let c = 0; c < whiteFigure[a][b].length; c++) {
+                if (el[0] == whiteFigure[a][b][0] && el[1] == whiteFigure[a][b][1] && whiteFigure[a][b][2] == "white") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      });
+    } // Wyszukuję pola, na których znajdują się czarne figury
+
+
+    if (this.side == "black") {
+      possibleMoves.forEach(el => {
+        for (let a = 0; a < blackFigure.length; a++) {
+          for (let b = 0; b < blackFigure[a].length; b++) {
+            if (blackFigure[a][b]) {
+              for (let c = 0; c < blackFigure[a][b].length; c++) {
+                if (el[0] == blackFigure[a][b][0] && el[1] == blackFigure[a][b][1] && blackFigure[a][b][2] == "black") {
+                  imposibleMoves.push(el);
+                }
+              }
+            }
+          }
+        }
+      });
+      possibleMoves = possibleMoves.filter(el => el);
+      possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`); // console.log(possibleMoves);
+
+      return possibleMoves;
+    } //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury oraz wyłączenie możliwości przeskakiwania ich.
+
+
+    possibleMoves.forEach(el => {
+      imposibleMoves.forEach(move => {
+        if (el[1] == move[1]) {
+          possibleMoves.forEach(i => {
+            if (i[1] == move[1] && i[0] < this.x && i[0] < move[0] && move[0] < this.x || i[1] == move[1] && i[0] > this.x && i[0] > move[0] && move[0] > this.x) {
+              delete possibleMoves[possibleMoves.indexOf(i)];
+            }
+          });
+        } else if (el[0] == move[0]) {
+          possibleMoves.forEach(i => {
+            if (i[0] == move[0] && i[1] < this.y && i[1] < move[1] && move[1] < this.y || i[0] == move[0] && i[1] > this.y && i[1] > move[1] && move[1] > this.y) {
+              delete possibleMoves[possibleMoves.indexOf(i)];
+            }
+          });
+        }
+
+        if (el == move) {
+          delete possibleMoves[possibleMoves.indexOf(el)];
+        }
+      });
+    }); //Usunięcie możliwości przeskakiwania figur przeciwnika
+
+    if (this.side == "white") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < blackFigure.length; j++) {
+          for (let k = 0; k < blackFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (blackFigure[j][k]) {
+                if (possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] < blackFigure[j][k][0] && possibleMoves[i][0] < this.x && blackFigure[j][k][0] < this.x || possibleMoves[i][1] == blackFigure[j][k][1] && possibleMoves[i][0] > blackFigure[j][k][0] && possibleMoves[i][0] > this.x && blackFigure[j][k][0] > this.x || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] > blackFigure[j][k][1] && possibleMoves[i][1] > this.y && blackFigure[j][k][1] > this.y || possibleMoves[i][0] == blackFigure[j][k][0] && possibleMoves[i][1] < blackFigure[j][k][1] && possibleMoves[i][1] < this.y && blackFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (this.side == "black") {
+      for (let i = 0; i < possibleMoves.length; i++) {
+        for (let j = 0; j < whiteFigure.length; j++) {
+          for (let k = 0; k < whiteFigure[j].length; k++) {
+            if (possibleMoves[i]) {
+              if (whiteFigure[j][k]) {
+                if (possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] < whiteFigure[j][k][0] && possibleMoves[i][0] < this.x && whiteFigure[j][k][0] < this.x || possibleMoves[i][1] == whiteFigure[j][k][1] && possibleMoves[i][0] > whiteFigure[j][k][0] && possibleMoves[i][0] > this.x && whiteFigure[j][k][0] > this.x || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] > whiteFigure[j][k][1] && possibleMoves[i][1] > this.y && whiteFigure[j][k][1] > this.y || possibleMoves[i][0] == whiteFigure[j][k][0] && possibleMoves[i][1] < whiteFigure[j][k][1] && possibleMoves[i][1] < this.y && whiteFigure[j][k][1] < this.y) {
+                  delete possibleMoves[i];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    possibleMoves = possibleMoves.filter(el => el);
+    possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`);
+    console.log(possibleMoves);
+    console.log(this);
+    return possibleMoves;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Rook);
 
 /***/ }),
 
@@ -1226,81 +3191,27 @@ class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _touched__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./touched */ "./src/touched.js");
-/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board */ "./src/board.js");
-
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./board */ "./src/board.js");
 
 
 const setup = () => {
-  // console.log(board);
-  for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_1__["default"].length; x++) {
-    for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_1__["default"][x].length; y++) {
+  console.log(_board__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+  for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_0__["default"].length; x++) {
+    for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_0__["default"][x].length; y++) {
       const square = document.createElement('div');
       square.id = `${x},${y}`; // square.innerHTML = `${x}, ${y}`;// by lepiej widzieć indeksy
 
-      square.innerHTML = _board__WEBPACK_IMPORTED_MODULE_1__["default"][x][y] ? _board__WEBPACK_IMPORTED_MODULE_1__["default"][x][y].display : "";
+      square.innerHTML = _board__WEBPACK_IMPORTED_MODULE_0__["default"][x][y] ? _board__WEBPACK_IMPORTED_MODULE_0__["default"][x][y].display : "";
       square.className = 'square';
-      square.className += x % 2 == y % 2 ? ' light' : ' dark';
-      square.addEventListener('click', e => {
-        Object(_touched__WEBPACK_IMPORTED_MODULE_0__["default"])(e);
-      });
+      square.className += x % 2 == y % 2 ? ' light' : ' dark'; //square.addEventListener('click', (e) => { touched(e) });
+
       document.getElementById('board').appendChild(square);
     }
   }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (setup);
-
-/***/ }),
-
-/***/ "./src/touched.js":
-/*!************************!*\
-  !*** ./src/touched.js ***!
-  \************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.regexp.replace */ "./node_modules/core-js/modules/es6.regexp.replace.js");
-/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board */ "./src/board.js");
-
-
-
-const touched = e => {
-  const x = e.currentTarget.id[0];
-  const y = e.currentTarget.id[2];
-
-  if (!_board__WEBPACK_IMPORTED_MODULE_1__["default"][x][y]) {
-    return;
-  }
-
-  const possibleMoves = _board__WEBPACK_IMPORTED_MODULE_1__["default"][x][y].findLegalMoves();
-
-  for (let el of possibleMoves) {
-    document.getElementById(el).className += ` possibleMove`;
-    document.getElementById(el).addEventListener('click', e => {
-      _board__WEBPACK_IMPORTED_MODULE_1__["default"][x][y].move(e.currentTarget.id);
-
-      for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_1__["default"].length; x++) {
-        for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_1__["default"][x].length; y++) {
-          document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, ''); //TODO: rozwiązać tematykę event listenerów sprytniej, przenosząc każdy do osobnego pliku
-
-          let old_element = document.getElementById(`${x},${y}`);
-          let new_element = old_element.cloneNode(true);
-          old_element.parentNode.replaceChild(new_element, old_element); // document.getElementById(`${x},${y}`).removeEventListener('click');
-
-          document.getElementById(`${x},${y}`).addEventListener('click', e => {
-            touched(e);
-          });
-        }
-      }
-    });
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (touched);
 
 /***/ })
 
