@@ -1,9 +1,8 @@
 :root {
-    --main-color: #789E53;
-    --secondary-color: rgba(122, 143, 143, 0.507);
-    /* --secondary-color: #C9C9B3; */
-    --white-figures: rgba(255,255,255,0.7);
-    --black-figures: rgba(0,0,0,0.7);
+    --white: white;
+    --black: black;  
+    --white-figures: rgba(255, 255, 255, 0.8);
+    --black-figures: rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -12,12 +11,6 @@ html {
 
 * {
     box-sizing: border-box;
-}
-
-body {
-    /* background-color: var(--main-color); */
-    background-image: url('https://images.pexels.com/photos/1054289/pexels-photo-1054289.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
-    background-size: cover;
 }
 
 #wrapper {
@@ -41,17 +34,6 @@ body {
     text-align: center;
     line-height: 10vh;
     font-size: 7.5vh;
-    border-radius: 25%;
-    /* border: 1px solid #fff; */
-}
-
-.light {
-    /* background: var(--secondary-color); */
-}
-
-.dark {
-    /* background: var(--main-color); */
-    background: var(--secondary-color);
 }
 
 .black {
@@ -62,20 +44,20 @@ body {
     color: var(--white-figures);
 }
 
-.possibleMove {
-    background:rgba(202, 25, 63, 0.5);
-} */
+.selected {
+    font-size: 1.1em;
+}
 
-//for some reason it doesnt work without this first #promo.
-#promo {
-    /* position: absolute; */
-    /* background-color: rgba(202, 25, 63, 0.9); */
+.selected.white {
+    color: var(--white);
+}
+
+.selected.black {
+    color: var(--black);
 }
 
 #promo {
     position: absolute;
-    border-radius: 20px;
-    background-color: rgba(202, 25, 63, 0.9);
 }
 
 #promo>div {
@@ -87,9 +69,9 @@ body {
 }
 
 #promo>div:hover>i.white {
-    color: #fff;
+    color: var(--white);
 }
 
 #promo>div:hover>i.black {
-    color: #000;
+    color: var(--black);
 }

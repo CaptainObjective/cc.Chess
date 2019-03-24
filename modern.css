@@ -1,0 +1,27 @@
+:root {    
+    --primary: rgba(122, 143, 143, 0.5);
+    --selected: rgba(202, 25, 63, 0.5);
+    --selected-darker: rgba(202, 25, 63, 0.9);
+}
+
+body {
+    background-image: url('https://images.pexels.com/photos/1054289/pexels-photo-1054289.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+    background-size: cover;
+}
+
+.square {
+    border-radius: 25%;
+}
+
+.dark {
+    background: var(--primary);
+}
+
+.possibleMove {
+    background: var(--selected);
+}
+
+#promo {
+    border-radius: 20px;
+    background-color: var(--selected-darker);
+}
