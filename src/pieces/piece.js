@@ -4,11 +4,16 @@ class Piece {
     constructor(x, y, side) {
         this.x = x;
         this.y = y;
+        this.wasMoved = false;
+
         this.side = side; //'black' or 'white'
     }
-    move(id) {
-        const newX = id[0];
-        const newY = id[2];
+    move([newX, newY]) {
+        newX = parseInt(newX);
+        newY = parseInt(newY);
+
+        //setting new in new place
+        board[newX][newY] = board[this.x][this.y];
 
         //clearing previous place
         board[this.x][this.y] = null;
@@ -17,7 +22,12 @@ class Piece {
         //setting new
         this.x = newX;
         this.y = newY;
-        document.getElementById(id).innerHTML = this.display;
+        // console.log(typeof (this.x), typeof (this.y))
+
+        this.wasMoved ? this.firstMove = false : this.firstMove = true
+        console.log(newY)
+        this.wasMoved = true;
+        document.getElementById(`${newX},${newY}`).innerHTML = this.display;
 
     }
 
