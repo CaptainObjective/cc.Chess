@@ -1,8 +1,6 @@
 import setup from './setup';
-import board from './board';
+import board,{ kingWhite, kingBlack} from './board';
 import Pawn from './pieces/pawn';
-import knightWhite from './board';
-import kingBlack from './board';
 import King from './pieces/king';
 
 //checkWinner();
@@ -100,7 +98,7 @@ chessBoard.addEventListener('click', (e) => {
                 if (!blackDoCastling) {
                     blackCastling();
                 }
-              
+
                 if (pieceElement instanceof Pawn && (squareCords[0] == "0" || squareCords[0] == "7")) {
                     //jeśli można dokonać promocji pionka
                     pieceElement.promote(squareCords, pieceElement.side);
@@ -118,6 +116,7 @@ chessBoard.addEventListener('click', (e) => {
                 remSelection([pieceElement.x, pieceElement.y]);
             }
         }
+        
         pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
@@ -125,9 +124,9 @@ chessBoard.addEventListener('click', (e) => {
             // touched(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
 
-            addSelection([pieceElement.x,pieceElement.y]);
+            addSelection([pieceElement.x, pieceElement.y]);
 
-            if(!possibleMoves()){
+            if (!possibleMoves()) {
                 remSelection([pieceElement.x, pieceElement.y]);
                 pieceElement = false;
             }
@@ -137,5 +136,26 @@ chessBoard.addEventListener('click', (e) => {
         }
     }
 });
+const checkMate = () => {
+    let white = 0;
+    let black = 0;
+    console.log(`${kingBlack.x},${kingBlack.y}` + "TOTOTOTOTOT")
+    for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 8; y++) {
+            if (board[x][y] != null) {
+                board[x][y].findLegalMoves().forEach(element => {
+                    if (board[x][y].side != 'white' && element === `${kingWhite.x},${kingWhite.y}`) {
+                    console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");   
+                    }
+                    if (board[x][y].side != 'black' && element === `${kingBlack.x},${kingBlack.y}`) {
+                    console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");   
+                    }
+                   
+                });
+                
+            }
+        }
+    }
+}
 
 window.onload = setup
