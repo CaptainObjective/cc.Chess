@@ -2199,6 +2199,101 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 
 /***/ }),
 
+/***/ "./src/ai.js":
+/*!*******************!*\
+  !*** ./src/ai.js ***!
+  \*******************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main */ "./src/main.js");
+
+
+
+class AI {
+  constructor(depth, side) {
+    try {
+      this.stockfish = new Worker("./assets/stockfish/stockfish.js");
+    } catch (e) {
+      alert('You shall not play! Get normal browser');
+    }
+
+    this.stockfish.onmessage = event => {
+      if (!event.data.includes('info')) {
+        console.log(event.data);
+
+        if (event.data.includes('bestmove')) {
+          //bestmove c7c5 ponder g1f3
+          // console.log(this.translateToGame(event.data.slice(9, 14)));
+          let move = event.data.slice(9, 14);
+          this.history += ` ${move}`;
+          console.log(this.history);
+          move = this.translateToGame(event.data.slice(9, 14));
+          console.log(move);
+          Object(_main__WEBPACK_IMPORTED_MODULE_1__["engineMoved"])(move);
+        }
+      } // console.log(event.data);
+
+    };
+
+    this.stockfish.postMessage("ucinewgame");
+    this.stockfish.postMessage("isready");
+    this.depth = depth; //poziom trudności
+
+    this.side = side; //'black' or 'white' po której stronie gra gracz nie komp
+
+    this.history = '';
+
+    if (this.side == 'black') {
+      this.getFirstMove();
+    }
+  }
+
+  translateToEngine(from, to) {
+    to.forEach((el, i, arr) => arr[i] = parseInt(arr[i]));
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const ranks = [8, 7, 6, 5, 4, 3, 2, 1];
+    let newMove = `${files[from[1]]}${ranks[from[0]]}${files[to[1]]}${ranks[to[0]]}`; // console.log(from, to);
+    // console.log(newMove);
+
+    return newMove;
+  }
+
+  translateToGame(move) {
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+    const newMove = [];
+    newMove.push(ranks.indexOf(move[1]) + ',' + files.indexOf(move[0]));
+    newMove.push(ranks.indexOf(move[3]) + ',' + files.indexOf(move[2]));
+    return newMove;
+  }
+
+  getMove(from, to) {
+    const lastMove = this.translateToEngine(from, to);
+    this.history += ` ${lastMove}`;
+    this.stockfish.postMessage(`position startpos moves ${this.history}`); //moves e2e4 e7e5
+
+    this.stockfish.postMessage(`go depth ${this.depth}`);
+    this.stockfish.postMessage("d"); //fajne do testów
+  }
+
+  getFirstMove() {
+    this.stockfish.postMessage(`position startpos moves ${this.history}`); //moves e2e4 e7e5
+
+    this.stockfish.postMessage(`go depth ${this.depth}`);
+    this.stockfish.postMessage("d"); //fajne do testów
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (AI);
+
+/***/ }),
+
 /***/ "./src/board.js":
 /*!**********************!*\
   !*** ./src/board.js ***!
@@ -2282,22 +2377,40 @@ board[kingBlack.x][kingBlack.y] = kingBlack;
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-/*! no exports provided */
+/*! exports provided: engineMoved */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.regexp.to-string */ "./node_modules/core-js/modules/es6.regexp.to-string.js");
-/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.regexp.replace */ "./node_modules/core-js/modules/es6.regexp.replace.js");
-/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
-/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./board */ "./src/board.js");
-/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
-/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "engineMoved", function() { return engineMoved; });
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.symbol.async-iterator */ "./node_modules/core-js/modules/es7.symbol.async-iterator.js");
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.regexp.to-string */ "./node_modules/core-js/modules/es6.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.regexp.replace */ "./node_modules/core-js/modules/es6.regexp.replace.js");
+/* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./settings */ "./src/settings.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./board */ "./src/board.js");
+/* harmony import */ var _pieces_pawn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pieces/pawn */ "./src/pieces/pawn.js");
+/* harmony import */ var _pieces_king__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pieces/king */ "./src/pieces/king.js");
+/* harmony import */ var _setup__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./setup */ "./src/setup.js");
 
+
+
+
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -2337,8 +2450,23 @@ const possibleMoves = () => {
 };
 
 const moved = cord => {
+  console.log(cord);
+  _settings__WEBPACK_IMPORTED_MODULE_5__["engine"] && pieceElement.side == _settings__WEBPACK_IMPORTED_MODULE_5__["engine"].side && _settings__WEBPACK_IMPORTED_MODULE_5__["engine"].getMove([pieceElement.x, pieceElement.y], cord);
   pieceElement.move(cord);
   clearMoves(cord);
+};
+
+const engineMoved = (_ref) => {
+  let _ref2 = _slicedToArray(_ref, 2),
+      from = _ref2[0],
+      to = _ref2[1];
+
+  // console.log(from);
+  // console.log(to);
+  const pieceMoved = _board__WEBPACK_IMPORTED_MODULE_6__["default"][parseInt(from[0])][parseInt(from[2])]; // console.log(pieceMoved)
+
+  pieceMoved.move([to[0], to[2]]);
+  changePlayer.flip();
 };
 
 const addSelection = cord => {
@@ -2350,8 +2478,8 @@ const remSelection = cord => {
 };
 
 const clearMoves = cord => {
-  for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_4__["default"].length; x++) {
-    for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_4__["default"][x].length; y++) {
+  for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_6__["default"].length; x++) {
+    for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_6__["default"][x].length; y++) {
       document.getElementById(`${x},${y}`).className = document.getElementById(`${x},${y}`).className.replace(`possibleMove`, '');
     }
   }
@@ -2361,21 +2489,21 @@ let whiteDoCastling = false;
 let blackDoCastling = false;
 
 const whiteCastling = () => {
-  if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][6].firstMove) {
-    _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][7].move([`7`, `5`]);
+  if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][7][6] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_8__["default"] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][7].move([`7`, `5`]);
     whiteDoCastling = true;
-  } else if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][2].firstMove) {
-    _board__WEBPACK_IMPORTED_MODULE_4__["default"][7][0].move([`7`, `3`]);
+  } else if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][7][2] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_8__["default"] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_6__["default"][7][0].move([`7`, `3`]);
     whiteDoCastling = true;
   }
 };
 
 const blackCastling = () => {
-  if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][6].firstMove) {
-    _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][7].move([`0`, `5`]);
+  if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][0][6] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][6].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_8__["default"] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][6].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][7].move([`0`, `5`]);
     blackDoCastling = true;
-  } else if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_6__["default"] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][2].firstMove) {
-    _board__WEBPACK_IMPORTED_MODULE_4__["default"][0][0].move([`0`, `3`]);
+  } else if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][0][2] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][2].constructor == _pieces_king__WEBPACK_IMPORTED_MODULE_8__["default"] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][2].firstMove) {
+    _board__WEBPACK_IMPORTED_MODULE_6__["default"][0][0].move([`0`, `3`]);
     blackDoCastling = true;
   }
 };
@@ -2391,9 +2519,8 @@ chessBoard.addEventListener('click', e => {
       clearMoves(squareCords);
       remSelection([pieceElement.x, pieceElement.y]);
     } else {
-      console.log(squareCords.toString());
-      console.log(pieceElement.findLegalMoves());
-
+      // console.log(squareCords.toString());
+      // console.log(pieceElement.findLegalMoves())
       if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
         moved(squareCords);
         changePlayer.flip();
@@ -2407,7 +2534,7 @@ chessBoard.addEventListener('click', e => {
           blackCastling();
         }
 
-        if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_5__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
+        if (pieceElement instanceof _pieces_pawn__WEBPACK_IMPORTED_MODULE_7__["default"] && (squareCords[0] == "0" || squareCords[0] == "7")) {
           //jeśli można dokonać promocji pionka
           pieceElement.promote(squareCords, pieceElement.side);
         }
@@ -2429,11 +2556,11 @@ chessBoard.addEventListener('click', e => {
     pieceElement = false;
   } else {
     // jesli bierek niezaznaczony
-    if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]] && _board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]].side == changePlayer.turn) {
+    if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][squareCords[0]][squareCords[1]] && _board__WEBPACK_IMPORTED_MODULE_6__["default"][squareCords[0]][squareCords[1]].side == changePlayer.turn) {
       // jesli na polu bierek i kolor odpowiada kolorowi rundy
-      console.log('zaznaczam bierka'); // touched(squareCords);
-
-      pieceElement = _board__WEBPACK_IMPORTED_MODULE_4__["default"][squareCords[0]][squareCords[1]];
+      console.log('zaznaczam bierka');
+      console.log(squareCords);
+      pieceElement = _board__WEBPACK_IMPORTED_MODULE_6__["default"][squareCords[0]][squareCords[1]];
       addSelection([pieceElement.x, pieceElement.y]);
 
       if (!possibleMoves()) {
@@ -2451,17 +2578,17 @@ chessBoard.addEventListener('click', e => {
 const checkMate = () => {
   let white = 0;
   let black = 0;
-  console.log(`${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].y}` + "TOTOTOTOTOT");
+  console.log(`${_board__WEBPACK_IMPORTED_MODULE_6__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_6__["kingBlack"].y}` + "TOTOTOTOTOT");
 
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {
-      if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y] != null) {
-        _board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].findLegalMoves().forEach(element => {
-          if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].side != 'white' && element === `${_board__WEBPACK_IMPORTED_MODULE_4__["kingWhite"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingWhite"].y}`) {
+      if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][x][y] != null) {
+        _board__WEBPACK_IMPORTED_MODULE_6__["default"][x][y].findLegalMoves().forEach(element => {
+          if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][x][y].side != 'white' && element === `${_board__WEBPACK_IMPORTED_MODULE_6__["kingWhite"].x},${_board__WEBPACK_IMPORTED_MODULE_6__["kingWhite"].y}`) {
             console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");
           }
 
-          if (_board__WEBPACK_IMPORTED_MODULE_4__["default"][x][y].side != 'black' && element === `${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_4__["kingBlack"].y}`) {
+          if (_board__WEBPACK_IMPORTED_MODULE_6__["default"][x][y].side != 'black' && element === `${_board__WEBPACK_IMPORTED_MODULE_6__["kingBlack"].x},${_board__WEBPACK_IMPORTED_MODULE_6__["kingBlack"].y}`) {
             console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");
           }
         });
@@ -2470,7 +2597,8 @@ const checkMate = () => {
   }
 };
 
-window.onload = _setup__WEBPACK_IMPORTED_MODULE_3__["default"];
+window.onload = _setup__WEBPACK_IMPORTED_MODULE_9__["default"];
+
 
 /***/ }),
 
@@ -2696,9 +2824,9 @@ class Knight extends _Piece__WEBPACK_IMPORTED_MODULE_0__["default"] {
           if (_board__WEBPACK_IMPORTED_MODULE_1__["default"][possX][possY] != null ? _board__WEBPACK_IMPORTED_MODULE_1__["default"][possX][possY].side != this.side : true) possibleMoves.push(`${possX},${possY}`);
         }
       }
-    }
+    } // console.log(possibleMoves);
 
-    console.log(possibleMoves);
+
     return possibleMoves;
   }
 
@@ -2742,8 +2870,7 @@ class Pawn extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
   findLegalMoves() {
     //console.log(this.x, this.y);
-    const possibleMoves = [];
-    console.log(possibleMoves);
+    const possibleMoves = []; // console.log(possibleMoves);
 
     if (this.side == 'white') {
       if (this.x != 0) {
@@ -3224,6 +3351,117 @@ class Rook extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 /***/ }),
 
+/***/ "./src/settings.js":
+/*!*************************!*\
+  !*** ./src/settings.js ***!
+  \*************************/
+/*! exports provided: default, engine */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "engine", function() { return engine; });
+/* harmony import */ var _ai__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ai */ "./src/ai.js");
+
+let engine;
+
+const getSettings = e => {
+  e.preventDefault();
+  const gameMode = e.target.gameMode.value;
+  const difficulty = e.target.difficulty.value;
+  const side = e.target.side.value;
+  const layout = e.target.layout.value;
+
+  if (gameMode == 'vsComp') {
+    console.log(difficulty);
+    engine = new _ai__WEBPACK_IMPORTED_MODULE_0__["default"](difficulty, side);
+  } else {
+    engine = null;
+  }
+
+  popup.parentNode.removeChild(popup);
+};
+
+const change = e => {
+  e.preventDefault();
+  const gameMode = document.querySelector('input[name="gameMode"]:checked').value;
+  const difficulty = document.getElementById('difficulty');
+  const side = [...document.getElementsByName('side')];
+
+  if (gameMode == 'Twoplayers') {
+    difficulty.disabled = true;
+
+    for (let el of side) {
+      el.disabled = true;
+    }
+
+    ;
+  } else {
+    difficulty.disabled = false;
+
+    for (let el of side) {
+      el.disabled = false;
+    }
+
+    ;
+  }
+};
+
+const popup = document.createElement('div');
+popup.className = 'overlay';
+const formContainer = document.createElement('div');
+formContainer.className = 'formContainer';
+const form = document.createElement('form');
+form.onsubmit = getSettings;
+form.onchange = change;
+form.innerHTML = `
+        <p class="header">Opponent </p>
+        <label for="gameMode" class="mode">            
+            <label class="pvp">
+                <input type="radio" name="gameMode" value="Twoplayers" checked> 
+                <i class="fas fa-user"></i>  
+            </label>
+            <label class="ai">
+                <input type="radio" name="gameMode" value="vsComp"> 
+                <i class="fas fa-robot"></i> 
+            </label>
+        </label>
+        <br>
+        <label for="difficulty" class="level">
+            <p class="header">Difficulty </p>
+            <select name="difficulty" id="difficulty" class="select" disabled>
+                <option value="0">Idiot</option>
+                <option value="5">Amateur</option>
+                <option value="10" selected="selected">Intermediete</option>
+                <option value="15">Pro</option>
+                <option value="20">God</option>
+            </select>            
+        </label>
+        <p class="header">Side</p>
+        <label for="side" id="side">
+            <label><input type="radio" name="side" value="white" checked disabled> <div id="white"></div> </label>
+            <label><input type="radio" name="side" value="black" disabled> 
+            <div id="black"></div> </label>
+        </label> 
+        <p class="header">Theme</p>
+        <label for="layout" class="skin">
+            <label>
+            <input type="radio" name="layout" value="Classic"> 
+            <p> Classic </p>
+            </label>
+            <label><input type="radio" name="layout" value="Modern" checked> <p class="modern">Modern</p> </label>
+        </label> </br>`;
+const submit = document.createElement('input');
+submit.type = 'submit';
+submit.value = 'Let the game begins';
+popup.appendChild(formContainer);
+formContainer.appendChild(form);
+form.appendChild(submit);
+/* harmony default export */ __webpack_exports__["default"] = (popup);
+
+
+/***/ }),
+
 /***/ "./src/setup.js":
 /*!**********************!*\
   !*** ./src/setup.js ***!
@@ -3234,10 +3472,13 @@ class Rook extends _Piece__WEBPACK_IMPORTED_MODULE_1__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./board */ "./src/board.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./settings */ "./src/settings.js");
+
 
 
 const setup = () => {
   console.log(_board__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  document.getElementById('wrapper').appendChild(_settings__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
   for (let x = 0; x < _board__WEBPACK_IMPORTED_MODULE_0__["default"].length; x++) {
     for (let y = 0; y < _board__WEBPACK_IMPORTED_MODULE_0__["default"][x].length; y++) {
@@ -3246,8 +3487,7 @@ const setup = () => {
 
       square.innerHTML = _board__WEBPACK_IMPORTED_MODULE_0__["default"][x][y] ? _board__WEBPACK_IMPORTED_MODULE_0__["default"][x][y].display : "";
       square.className = 'square';
-      square.className += x % 2 == y % 2 ? ' light' : ' dark'; //square.addEventListener('click', (e) => { touched(e) });
-
+      square.className += x % 2 == y % 2 ? ' light' : ' dark';
       document.getElementById('board').appendChild(square);
     }
   }
