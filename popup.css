@@ -1,0 +1,32 @@
+.overlay{
+z-index: 1;
+position: fixed;
+width: 100vw;
+height: 100vh;
+top: 0;
+left: 0;
+background-color: rgba(0, 0, 0, 0.6);
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.formContainer{
+    z-index: 2;
+    /* position: fixed; */
+    width: 50vh;
+    height: 50vh;
+    background-color: whitesmoke;
+}
+.formContainer > form{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+}
+.formContainer > form{
+    padding: 5%;
+}
