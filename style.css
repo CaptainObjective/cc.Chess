@@ -2,8 +2,8 @@
     --main-color: #789E53;
     --secondary-color: rgba(122, 143, 143, 0.507);
     /* --secondary-color: #C9C9B3; */
-    --white-figures: rgba(255,255,255,0.7);
-    --black-figures: rgba(0,0,0,0.7);
+    --white-figures: rgba(255,255,255,0.8);
+    --black-figures: rgba(0,0,0,0.8);
 }
 
 html {
@@ -66,30 +66,28 @@ body {
     background:rgba(202, 25, 63, 0.5);
 } */
 
-//for some reason it doesnt work without this first #promo.
-#promo {
-    /* position: absolute; */
-    /* background-color: rgba(202, 25, 63, 0.9); */
+/* .possibleMove {
+    border: 2px solid rgb(255, 77, 77);
 }
+
+/* .possibleMove:before {
+    content: ' \25CF';
+    font-size: 80px;
+    opacity: 0.5;
+} */
+
+
+
 
 #promo {
-    position: absolute;
-    border-radius: 20px;
-    background-color: rgba(202, 25, 63, 0.9);
+    position: absolute; 
+    background-color: #fff;
 }
 
-#promo>div {
-    background-color: transparent;
+#promo > div {
+     background-color: rgba(222, 247, 2, 0.6);
 }
 
-#promo>div:hover>i {
-    font-size: 1.1em;
-}
-
-#promo>div:hover>i.white {
-    color: #fff;
-}
-
-#promo>div:hover>i.black {
-    color: #000;
+#promo > div:hover {
+    background-color: rgb(215, 235, 243);
 }
