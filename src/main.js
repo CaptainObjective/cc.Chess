@@ -25,8 +25,8 @@ const possibleMoves = () => {
 }
 const moved = (cord) => {
     console.log(cord);
-    pieceElement.side == 'white' && (engine && engine.getMove([pieceElement.x, pieceElement.y], cord));
-    // pieceElement.side == 'black' && engine.getMove([pieceElement.x, pieceElement.y], cord);
+    engine && (pieceElement.side == engine.side && engine.getMove([pieceElement.x, pieceElement.y], cord));
+
     pieceElement.move(cord)
     clearMoves(cord);
 }
@@ -34,7 +34,7 @@ const engineMoved = ([from, to]) => {
     // console.log(from);
     // console.log(to);
     const pieceMoved = board[parseInt(from[0])][parseInt(from[2])];
-    console.log(pieceMoved)
+    // console.log(pieceMoved)
     pieceMoved.move([to[0], to[2]]);
     //zmiana tury
 
