@@ -1,9 +1,23 @@
+:root {
+    --main-color: #789E53;
+    --secondary-color: rgba(122, 143, 143, 0.507);
+    /* --secondary-color: #C9C9B3; */
+    --white-figures: rgba(255,255,255,0.8);
+    --black-figures: rgba(0,0,0,0.8);
+}
+
 html {
     margin: 0;
 }
 
 * {
     box-sizing: border-box;
+}
+
+body {
+    /* background-color: var(--main-color); */
+    background-image: url('https://images.pexels.com/photos/1054289/pexels-photo-1054289.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+    background-size: cover;
 }
 
 #wrapper {
@@ -17,41 +31,53 @@ html {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    outline: 5px black solid;
     width: 80vh;
     height: 80vh;
 }
 
 .square {
-    /* border: 1px darkslategrey solid; */
     width: 10vh;
     height: 10vh;
     text-align: center;
     line-height: 10vh;
     font-size: 7.5vh;
-
+    border-radius: 25%;
+    /* border: 1px solid #fff; */
 }
 
 .light {
-    background: rgb(215, 235, 243);
+    /* background: var(--secondary-color); */
 }
 
 .dark {
-    background: rgb(43, 43, 43);
+    /* background: var(--main-color); */
+    background: var(--secondary-color);
 }
 
 .black {
-    color: black;
+    color: var(--black-figures);
 }
 
 .white {
-    color: silver;
+    color: var(--white-figures);
 }
 
 .possibleMove {
+    background:rgba(202, 25, 63, 0.5);
+} */
 
-    background: rgba(222, 247, 2, 0.6);
+/* .possibleMove {
+    border: 2px solid rgb(255, 77, 77);
 }
+
+/* .possibleMove:before {
+    content: ' \25CF';
+    font-size: 80px;
+    opacity: 0.5;
+} */
+
+
+
 
 #promo {
     position: absolute; 
