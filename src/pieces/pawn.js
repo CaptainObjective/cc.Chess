@@ -72,6 +72,7 @@ class Pawn extends Piece {
             }
 
         }
+        //console.log(possibleMoves);
         return possibleMoves;
     }
     promote(cord, side) {      

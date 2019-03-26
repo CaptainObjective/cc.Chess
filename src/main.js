@@ -28,10 +28,10 @@ const getCord = (e) => {
 
 const possibleMoves = () => {
     //console.log('LEGITNE: '+ pieceElement.findLegalMoves());
-    for (let posmov of pieceElement.findLegalMoves()) {
+    for (let posmov of pieceElement.safetyMove()) {
         document.getElementById(posmov).className += ' possibleMove';
     }
-    return pieceElement.findLegalMoves() == '' ? false : true;
+    return pieceElement.safetyMove() == '' ? false : true;
 }
 const moved = (cord) => {
     console.log(cord);
@@ -99,7 +99,7 @@ chessBoard.addEventListener('click', (e) => {
         } else {
             // console.log(squareCords.toString());
             // console.log(pieceElement.findLegalMoves())
-            if (pieceElement.findLegalMoves().includes(squareCords.toString())) {
+            if (pieceElement.safetyMove().includes(squareCords.toString())) {
                 moved(squareCords);
                 changePlayer.flip();
                 console.log('Ruszam');
@@ -131,12 +131,12 @@ chessBoard.addEventListener('click', (e) => {
         pieceElement = false;
     } else { // jesli bierek niezaznaczony
         if (engine && board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side != engine.side) {
-            console.log('Ruszasz się nie swoją bierką');
+            // console.log('Ruszasz się nie swoją bierką');
             return
         }
         if (board[squareCords[0]][squareCords[1]] && board[squareCords[0]][squareCords[1]].side == changePlayer.turn) { // jesli na polu bierek i kolor odpowiada kolorowi rundy
-            console.log('zaznaczam bierka')
-            console.log(squareCords);
+            // console.log('zaznaczam bierka')
+            // console.log(squareCords);
             pieceElement = board[squareCords[0]][squareCords[1]];
 
             addSelection([pieceElement.x, pieceElement.y]);
@@ -145,8 +145,11 @@ chessBoard.addEventListener('click', (e) => {
                 remSelection([pieceElement.x, pieceElement.y]);
                 pieceElement = false;
             }
+
+            //pieceElement.king.amIInDanger();
+
         } else { //jesli na polu brak bierka
-            console.log('na tym polu nie ma bierka')
+            // console.log('na tym polu nie ma bierka')
             return;
         }
     }
@@ -158,7 +161,7 @@ const checkMate = () => {
     for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
             if (board[x][y] != null) {
-                board[x][y].findLegalMoves().forEach(element => {
+                board[x][y].safetyMove().forEach(element => {
                     if (board[x][y].side != 'white' && element === `${kingWhite.x},${kingWhite.y}`) {
                         console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");
                     }

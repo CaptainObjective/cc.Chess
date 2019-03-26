@@ -1,5 +1,6 @@
 import Piece from './Piece'
 import board from '../board'
+import { walkThroughTheBoard } from '../board';
 
 class King extends Piece {
     constructor(x, y, side) {
@@ -9,6 +10,22 @@ class King extends Piece {
         this.firstMove = false;
         this.castling = false;
     }
+
+    amIInDanger(){
+        let oponentColor = null;
+        this.side === 'white' ? oponentColor = 'black' : oponentColor = 'white';
+        let status = [];
+        walkThroughTheBoard(field => {
+            if(field && field.side === oponentColor) {
+                field.findLegalMoves().forEach(move => {
+                    move === `${this.x},${this.y}` ? status.push(true) : status.push(false);
+                })
+            }
+            
+        })
+        return status.some(element => element); //jeśli choć jeden element jest "true" to zwraca true
+    }
+
     findLegalMoves() {
 
         const possibleMoves = [];
@@ -27,7 +44,7 @@ class King extends Piece {
             if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
                 if (board[newX][newY] == undefined || board[newX][newY].side != this.side) {
                     // console.log(newX, newY);
-                    console.log(board[newX][newY])
+                    //console.log(board[newX][newY])
                     possibleMoves.push(`${newX},${newY}`);
                 }
             }
