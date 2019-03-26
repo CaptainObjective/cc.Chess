@@ -57,6 +57,20 @@ board[kingWhite.x][kingWhite.y] = kingWhite;
 const kingBlack = new King(0, 4, 'black');
 board[kingBlack.x][kingBlack.y] = kingBlack;
 
+export const walkThroughTheBoard = function (callback) {
+    board.forEach(row => {
+        row.forEach(box => {
+            callback(box);
+        })
+    });
+}
+
+walkThroughTheBoard(singleBox => {
+    if (singleBox) {
+        singleBox.side === 'white' ? singleBox.king = board[7][4] : singleBox.king = board[0][4];
+    }
+});
+
 
 export default board;
 export {
