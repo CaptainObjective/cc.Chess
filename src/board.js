@@ -57,6 +57,8 @@ board[kingWhite.x][kingWhite.y] = kingWhite;
 const kingBlack = new King(0, 4, 'black');
 board[kingBlack.x][kingBlack.y] = kingBlack;
 
+
+//funkcja, która iteruje się po planszy, przyjmuje jako parametr callbacka z jednym argumentem prezentującym pojedyncze pole
 export const walkThroughTheBoard = function (callback) {
     board.forEach(row => {
         row.forEach(box => {
@@ -65,6 +67,7 @@ export const walkThroughTheBoard = function (callback) {
     });
 }
 
+//w tym momecie przypisujemy każdej bierce jej króla do właściwości king
 walkThroughTheBoard(singleBox => {
     if (singleBox) {
         singleBox.side === 'white' ? singleBox.king = board[7][4] : singleBox.king = board[0][4];
