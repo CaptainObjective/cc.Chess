@@ -3,7 +3,7 @@ import popup from './settings';
 
 
 const setup = () => {
-    console.log(board);
+    //console.log(board);
     document.getElementById('wrapper').appendChild(popup)
     for (let x = 0; x < board.length; x++) {
         for (let y = 0; y < board[x].length; y++) {

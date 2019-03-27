@@ -8,7 +8,8 @@ import setup from './setup';
 const chessBoard = document.getElementById('board');
 
 const changePlayer = {
-    _turn: ['white', 'black'],
+    //_turn: ['white', 'black'],
+    _turn: ['black', 'white'],
     get turn() {
         return this._turn[0];
     },
@@ -28,13 +29,14 @@ const getCord = (e) => {
 
 const possibleMoves = () => {
     //console.log('LEGITNE: '+ pieceElement.findLegalMoves());
-    for (let posmov of pieceElement.safetyMove()) {
+    let validMoves = pieceElement.safetyMove();
+    for (let posmov of validMoves) {
         document.getElementById(posmov).className += ' possibleMove';
     }
-    return pieceElement.safetyMove() == '' ? false : true;
+    return validMoves == '' ? false : true;
 }
 const moved = (cord) => {
-    console.log(cord);
+    //console.log(cord);
     engine && (pieceElement.side == engine.side && engine.getMove([pieceElement.x, pieceElement.y], cord));
 
     pieceElement.move(cord)
@@ -93,7 +95,7 @@ chessBoard.addEventListener('click', (e) => {
     let squareCords = getCord(e);
     if (pieceElement) { //jeśli bierek zaznaczony
         if ((squareCords[0] == pieceElement.x) && (squareCords[1] == pieceElement.y)) {
-            console.log('To samo pole');
+            //console.log('To samo pole');
             clearMoves(squareCords);
             remSelection([pieceElement.x, pieceElement.y]);
         } else {
@@ -102,7 +104,7 @@ chessBoard.addEventListener('click', (e) => {
             if (pieceElement.safetyMove().includes(squareCords.toString())) {
                 moved(squareCords);
                 changePlayer.flip();
-                console.log('Ruszam');
+                //console.log('Ruszam');
                 if (!whiteDoCastling) {
                     whiteCastling();
                 }
@@ -122,7 +124,7 @@ chessBoard.addEventListener('click', (e) => {
                     blackCastling();
                 }
             } else {
-                console.log('Nie Ruszam');
+                //console.log('Nie Ruszam');
                 clearMoves(squareCords);
                 remSelection([pieceElement.x, pieceElement.y]);
             }
