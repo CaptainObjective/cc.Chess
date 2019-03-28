@@ -8,8 +8,9 @@ class Rook extends Piece {
         this.display = `<i class="fas fa-chess-rook ${side}"></i>`; //fontawesome rook
     }
     findLegalMoves() {
-
         let possibleMoves = [];
+
+        //movement rock
         for (let i = 0; i < board.length; i++) {
             possibleMoves[i] = [this.x, i];
             possibleMoves[i + board.length] = [i, this.y]
@@ -76,11 +77,6 @@ class Rook extends Piece {
                     }
                 }
             })
-            possibleMoves = possibleMoves.filter(el => el);
-            possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
-
-            // console.log(possibleMoves);
-            return possibleMoves;
         }
 
         //Usunięcie z możliwych ruchów pól, na których znajdują się moje figury oraz wyłączenie możliwości przeskakiwania ich.
@@ -136,11 +132,9 @@ class Rook extends Piece {
                 }
             }
         }
-
         possibleMoves = possibleMoves.filter(el => el);
         possibleMoves.forEach((el, i, arr) => arr[i] = `${el[0]},${el[1]}`)
-        console.log(possibleMoves);
-        //console.log(this)
+
         return possibleMoves;
     }
 }

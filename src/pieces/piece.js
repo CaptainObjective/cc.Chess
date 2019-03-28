@@ -7,7 +7,7 @@ class Piece {
         this.wasMoved = false;
 
         this.side = side; //'black' or 'white'
-
+        this.firstMove = false;
         this.king = null;
       
     }
@@ -27,9 +27,8 @@ class Piece {
         this.y = newY;
         // console.log(typeof (this.x), typeof (this.y))
 
-        this.wasMoved ? this.firstMove = false : this.firstMove = true
-        //console.log(newY)
-        this.wasMoved = true;
+        this.firstMove = true
+
         document.getElementById(`${newX},${newY}`).innerHTML = this.display;
 
     }
@@ -57,11 +56,15 @@ class Piece {
             this.x = desiredX; //przypisuje nowe właściwości pozycji
             this.y = desiredY;
 
+            this.firstMove = true;
+
             let safeOrNot = !this.king.amIInDanger(); //rozpatruje sytuację króla dla nowej pozycji na planszy
 
             board[properX][properY] = board[this.x][this.y]; //cofam bierka na pierwotną pozycję
             this.x = properX; //przywracam mu pierwotne właściwości
             this.y = properY;
+
+            this.firstMove = false;
 
             board[desiredX][desiredY] = pieceInDesired; //na rozpatrywane pole przywracam bierka, który tam był, jeśli go nie było to będzie undefined i tyle
 
