@@ -50,14 +50,18 @@ class King extends Piece {
             }
         }
 
-        //Small castling
-        if (!this.firstMove && !board[this.x][7].firstMove && !board[this.x][this.y + 1]) {
-            possibleMoves.push(`${this.x},${this.y + 2}`)
+        //Black castling
+        if (board[this.x][7]) { //jeśli pionek na polu
+            if (!this.firstMove && !board[this.x][7].firstMove && !board[this.x][this.y + 1]) {
+                possibleMoves.push(`${this.x},${this.y + 2}`)
+            }
         }
 
-        //Big castling
-        if (!this.firstMove && !board[this.x][0].firstMove && !board[this.x][this.y - 1]) {
-            possibleMoves.push(`${this.x},${this.y - 2}`)
+        //White castling
+        if (board[this.x][0]) { //jeśli pionek na polu
+            if (!this.firstMove && !board[this.x][0].firstMove && !board[this.x][this.y - 1]) {
+                possibleMoves.push(`${this.x},${this.y - 2}`)
+            }
         }
 
         return possibleMoves;

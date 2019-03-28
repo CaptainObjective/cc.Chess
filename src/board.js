@@ -57,6 +57,7 @@ board[kingWhite.x][kingWhite.y] = kingWhite;
 const kingBlack = new King(0, 4, 'black');
 board[kingBlack.x][kingBlack.y] = kingBlack;
 
+console.log(board);
 
 //funkcja, która iteruje się po planszy, przyjmuje jako parametr callbacka z jednym argumentem prezentującym pojedyncze pole
 export const walkThroughTheBoard = function (callback) {
