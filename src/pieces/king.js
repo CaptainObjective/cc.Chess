@@ -7,7 +7,7 @@ class King extends Piece {
         super(x, y, side);
         this.name = 'king';
         this.display = `<i class="fas fa-chess-king ${side}"></i>`; //fontawesome king
-        this.firstMove = false;
+        
         this.castling = false;
     }
 
@@ -51,12 +51,12 @@ class King extends Piece {
         }
 
         //Small castling
-        if (!this.wasMoved && !board[this.x][7].wasMoved && !board[this.x][this.y + 1]) {
+        if (!this.firstMove && !board[this.x][7].firstMove && !board[this.x][this.y + 1]) {
             possibleMoves.push(`${this.x},${this.y + 2}`)
         }
 
         //Big castling
-        if (!this.wasMoved && !board[this.x][0].wasMoved && !board[this.x][this.y - 1]) {
+        if (!this.firstMove && !board[this.x][0].firstMove && !board[this.x][this.y - 1]) {
             possibleMoves.push(`${this.x},${this.y - 2}`)
         }
 

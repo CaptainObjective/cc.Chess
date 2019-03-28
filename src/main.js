@@ -8,8 +8,8 @@ import setup from './setup';
 const chessBoard = document.getElementById('board');
 
 const changePlayer = {
-    //_turn: ['white', 'black'],
-    _turn: ['black', 'white'],
+    _turn: ['white', 'black'],
+    //_turn: ['black', 'white'],
     get turn() {
         return this._turn[0];
     },
