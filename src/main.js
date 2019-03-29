@@ -1,10 +1,10 @@
 import { engine } from './settings'
-import board, { kingWhite, kingBlack } from './board';
+import board, { kingWhite, kingBlack, walkThroughTheBoard } from './board';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import setup from './setup';
 
-//checkWinner();
+
 const chessBoard = document.getElementById('board');
 
 const changePlayer = {
@@ -19,12 +19,39 @@ const changePlayer = {
     }
 }
 
-const getCord = (e) => {
-    if (e.target.localName === 'div') {
-        return [e.target.id[0], e.target.id[2]]
-    } else {
-        return [e.target.parentNode.id[0], e.target.parentNode.id[2]];
+const checkWinner = () => {
+    let helMoves = [];
+    if(changePlayer.turn =='white'){ //sprawdza po wykananiu ruchu przez bialego
+        walkThroughTheBoard((box) => {
+            if(!!box && box.side == 'black'){
+                box.safetyMove().length == 0 ? helMoves.push(true) : helMoves.push(false);
+            }
+        })
+        if (helMoves.every(el => {return el == true;})){
+            //tutaj akcje jeśli mat
+            console.log('KONIEC GRY! BIALE WYGRYWAJA.')
+        }
+    } else { //sprawdza po wykonaniu ruchu przez czarnego
+            walkThroughTheBoard((box) => {
+                if (!!box && box.side == 'white') {
+                    box.safetyMove().length == 0 ? helMoves.push(true) : helMoves.push(false);
+                }
+            })
+            if (helMoves.every(el => {
+                    return el == true;
+                })) {
+                //tutaj akcje jeśli mat
+                console.log('KONIEC GRY! CZARNE WYGRYWAJA.')
+            }
     }
+};
+
+const getCord = (e) => {
+        if (e.target.localName === 'div') {
+            return [e.target.id[0], e.target.id[2]]
+        } else {
+            return [e.target.parentNode.id[0], e.target.parentNode.id[2]];
+        }
 }
 
 const possibleMoves = () => {
@@ -103,7 +130,7 @@ chessBoard.addEventListener('click', (e) => {
             // console.log(pieceElement.findLegalMoves())
             if (pieceElement.safetyMove().includes(squareCords.toString())) {
                 moved(squareCords);
-                changePlayer.flip();
+                
                 //console.log('Ruszam');
                 if (!whiteDoCastling) {
                     whiteCastling();
@@ -123,6 +150,8 @@ chessBoard.addEventListener('click', (e) => {
                 if (!blackDoCastling) {
                     blackCastling();
                 }
+                checkWinner();
+                changePlayer.flip();
             } else {
                 //console.log('Nie Ruszam');
                 clearMoves(squareCords);
@@ -147,7 +176,6 @@ chessBoard.addEventListener('click', (e) => {
                 remSelection([pieceElement.x, pieceElement.y]);
                 pieceElement = false;
             }
-
             //pieceElement.king.amIInDanger();
 
         } else { //jesli na polu brak bierka
@@ -155,7 +183,11 @@ chessBoard.addEventListener('click', (e) => {
             return;
         }
     }
+    
 });
+
+
+
 const checkMate = () => {
     let white = 0;
     let black = 0;
