@@ -1,3 +1,11 @@
+:root {
+    --black: black;
+    --white: white;
+    --blackish: rgba(0, 0, 0, 0.5);
+    --fancy: rgba(235, 158, 158, 0.507);
+}
+
+
 .overlay{
 z-index: 1;
 position: fixed;
@@ -11,22 +19,149 @@ justify-content: center;
 align-items: center;
 }
 
-.formContainer{
+/* form container*/
+.formContainer {
     z-index: 2;
     /* position: fixed; */
     width: 50vh;
     height: 50vh;
     background-color: whitesmoke;
+    border-radius: 20%;
 }
-.formContainer > form{
+
+/* form body */
+.formContainer>form {
     width: 100%;
     height: 100%;
     margin: auto;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-evenly;
+    padding: 5% 20%;
+    font-size: 1.3em;
+    color: var(--blackish);
+    text-align: center;
+    align-content: space-around;
+    justify-content: space-evenly;
 }
-.formContainer > form{
-    padding: 5%;
+
+form p.modern {
+    font-family: sans-serif;
+    color: var(--black);
+    margin: 0.5em 0em;
+    display: flex;
+    justify-self: flex-end;
+}
+
+form p.header {
+    font-family: sans-serif;
+    color: var(--black);
+}
+
+form p.dif {
+    margin-right: 1em;
+}
+
+
+/* radio signs dissapear */
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* pointer cursor on clickable*/
+[type=radio]+i,
+p,
+div {
+    cursor: pointer;
+    margin: 0;
+}
+
+/* checked */
+[type=radio]:checked+i {
+    color: var(--black);
+}
+
+[type=radio]:checked+p {
+    color: var(--black);
+    font-weight: bold;
+}
+
+/* labels displayed as flex */
+form label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* icon size */
+form i {
+    font-size: 1.5em;
+    display: flex;
+    color: var(--blackish);
+}
+
+/* side: white */
+form div#white {
+    height: 1em;
+    width: 1em;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* side white checked */
+form [type=radio]:checked+div#white {
+    height: 2em;
+    width: 2em;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* side: black */
+form div#black {
+    height: 1em;
+    width: 1em;
+    background-color: black;
+    border-radius: 50%;
+}
+
+/* side black checked */
+form [type=radio]:checked+div#black {
+    height: 2em;
+    width: 2em;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.select {
+    display: block;
+    font-size: 0.65em;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: 1em;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+    border-radius: .5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+
+input[type="button"] {
+    background: #76B3FA;
+    border-radius: 100px;
+    padding: 20px 60px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.45em;
+    margin: 0 15px;
 }
