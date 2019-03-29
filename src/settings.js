@@ -90,7 +90,7 @@ form.innerHTML = `
 
 const submit = document.createElement('input');
 submit.type = 'submit'
-submit.value = 'Let the game begins'
+submit.value = 'Let the game begin'
 
 
 
