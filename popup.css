@@ -137,7 +137,7 @@ form [type=radio]:checked+div#black {
 
 .select {
     display: block;
-    font-size: 16px;
+    font-size: 0.65em;
     font-family: sans-serif;
     font-weight: 700;
     color: var(--black);
