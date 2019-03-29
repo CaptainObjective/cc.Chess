@@ -50,14 +50,21 @@ const form = document.createElement('form');
 form.onsubmit = getSettings;
 form.onchange = change;
 form.innerHTML = `
-        <label for="gameMode">
-            <label><input type="radio" name="gameMode" value="Twoplayers" checked> Player vs Player </label>
-            <label><input type="radio" name="gameMode" value="vsComp"> Player vs Computer </label>
+         <p class="header">Opponent </p>
+        <label for="gameMode" class="mode">            
+            <label class="pvp">
+                <input type="radio" name="gameMode" value="Twoplayers" checked> 
+                <i class="fas fa-user"></i>  
+            </label>
+            <label class="ai">
+                <input type="radio" name="gameMode" value="vsComp"> 
+                <i class="fas fa-robot"></i> 
+            </label>
         </label>
         <br>
-        <label for="difficulty">
-            Level:
-            <select name="difficulty" id="difficulty" disabled>
+        <label for="difficulty" class="level">
+            <p class="header dif">Difficulty </p>
+            <select name="difficulty" id="difficulty" class="select" disabled>
                 <option value="0">Idiot</option>
                 <option value="5">Amateur</option>
                 <option value="10" selected="selected">Intermediete</option>
@@ -66,17 +73,20 @@ form.innerHTML = `
             </select>
         </label>
         <br>
+         <p class="header">Side</p>
         <label for="side" id="side">
-            Side:
-            <label><input type="radio" name="side" value="white" checked disabled> White </label>
-            <label><input type="radio" name="side" value="black" disabled> Black </label>
+                <label><input type="radio" name="side" value="white" checked disabled> <div id="white"></div> </label>
+            <label><input type="radio" name="side" value="black" disabled> 
+            <div id="black"></div> </label>
         </label> 
-        </br>
-        <label for="layout">
-            Theme:
-            <label><input type="radio" name="layout" value="classic"> Classic </label>
-            <label><input type="radio" name="layout" value="modern" checked> Modern </label>
-        </label> </br>`;
+        <p class="header">Theme</p>
+        <label for="layout" class="skin">
+            <label>
+            <input type="radio" name="layout" value="Classic"> 
+            <p> Classic </p>
+            </label>
+        <label><input type="radio" name="layout" value="Modern" checked> <p class="modern">Modern</p> </label>        
+        </label>`;
 
 const submit = document.createElement('input');
 submit.type = 'submit'
