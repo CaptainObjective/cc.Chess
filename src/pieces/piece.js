@@ -42,7 +42,7 @@ class Piece {
         let properY = this.y;
 
         let possibleMoves = this.findLegalMoves().filter(m =>{
-            console.log(m);
+            //console.log(m);
 
             let desiredX = m[0]; //przypisuję do zmiennych x i y rozpatrywanego ruchu
             let desiredY = m[2];
@@ -72,7 +72,7 @@ class Piece {
         });
         
         //console.log(typeof possibleMoves);
-        console.log(possibleMoves);
+        //console.log(possibleMoves);
         return possibleMoves;
     }
 }
