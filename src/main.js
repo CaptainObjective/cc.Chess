@@ -1,9 +1,9 @@
 import { engine } from './settings'
-import board, { kingWhite, kingBlack, walkThroughTheBoard } from './board';
+import board, { walkThroughTheBoard } from './board';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import setup from './setup';
-
+import result from './result'
 
 const chessBoard = document.getElementById('board');
 
@@ -29,20 +29,24 @@ const checkWinner = () => {
         })
         if (helMoves.every(el => {return el == true;})){
             //tutaj akcje jeśli mat
-            console.log('KONIEC GRY! BIALE WYGRYWAJA.')
+            //białe wygrywają
+            console.log('białe wygrywają');
+            result('black');
         }
     } else { //sprawdza po wykonaniu ruchu przez czarnego
-            walkThroughTheBoard((box) => {
-                if (!!box && box.side == 'white') {
-                    box.safetyMove().length == 0 ? helMoves.push(true) : helMoves.push(false);
-                }
-            })
-            if (helMoves.every(el => {
-                    return el == true;
-                })) {
-                //tutaj akcje jeśli mat
-                console.log('KONIEC GRY! CZARNE WYGRYWAJA.')
+        walkThroughTheBoard((box) => {
+            if (!!box && box.side == 'white') {
+                box.safetyMove().length == 0 ? helMoves.push(true) : helMoves.push(false);
             }
+        })
+        if (helMoves.every(el => {
+                return el == true;
+            })) {
+            //tutaj akcje jeśli mat
+            //czarne wygrywają
+            console.log('czarne wygrywają');
+            result('white');
+        }
     }
 };
 
@@ -185,30 +189,6 @@ chessBoard.addEventListener('click', (e) => {
     }
     
 });
-
-
-
-const checkMate = () => {
-    let white = 0;
-    let black = 0;
-    console.log(`${kingBlack.x},${kingBlack.y}` + "TOTOTOTOTOT")
-    for (let x = 0; x < 8; x++) {
-        for (let y = 0; y < 8; y++) {
-            if (board[x][y] != null) {
-                board[x][y].safetyMove().forEach(element => {
-                    if (board[x][y].side != 'white' && element === `${kingWhite.x},${kingWhite.y}`) {
-                        console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH BIAŁY");
-                    }
-                    if (board[x][y].side != 'black' && element === `${kingBlack.x},${kingBlack.y}`) {
-                        console.log("SZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH CZARNY");
-                    }
-
-                });
-
-            }
-        }
-    }
-}
 
 window.onload = setup
 
