@@ -1,9 +1,9 @@
 .result {
     z-index: 2;
     width: 50vh;
-    height: 30vh;
+    height: 40vh;
     background-color: whitesmoke;
-    border-radius: 10%;
+    border-radius: 20%;
 }
 
 .result > form {
@@ -13,7 +13,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
-    padding: 4vh;
+    padding: 4vh 9vh;
     font-size: 4vh;
     color: var(--blackish);
     text-align: center;
@@ -33,6 +33,14 @@
 }
 
 .result input[type='submit'] {
-    font-size: 0.6em;
+    font-size: 0.5em;
     height: 1.8em;
+}
+
+.result i.black {   
+    color:black;
+}
+
+.result i.white {
+    color: white;
 }

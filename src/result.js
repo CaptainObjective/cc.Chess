@@ -18,7 +18,8 @@ const result = (winner) => {
 
     form.innerHTML = `
             <h2>Game over</h2>
-            <p>${winner} is winner</p>
+            <i class = "fas fa-chess-king ${winner}"></i>
+            <p>${winner} is the winner</p>
             `
     const submit = document.createElement('input');
     submit.type = 'submit'

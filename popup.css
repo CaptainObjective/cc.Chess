@@ -36,7 +36,7 @@ align-items: center;
     margin: auto;
     display: flex;
     flex-direction: column;
-    padding: 4vh;
+    padding: 4vh 9vh;
     font-size: 4vh;
     color: var(--blackish);
     text-align: center;
@@ -46,14 +46,14 @@ align-items: center;
 form p.header {
     font-family: sans-serif;
     color: var(--black);
-    font-size: 0.8em;
+    font-size: 0.78em;
 }
 
 form label {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    font-size: 0.85em;
+    font-size: 0.80em;
 }
 
 form label.level {
@@ -111,8 +111,8 @@ form div#white {
 
 /* side white checked */
 form [type=radio]:checked+div#white {
-    height: 1.9em;
-    width: 1.9em;
+    height: 2em;
+    width: 2em;
     background-color: white;
     border-radius: 50%;
 }
@@ -127,15 +127,15 @@ form div#black {
 
 /* side black checked */
 form [type=radio]:checked+div#black {
-    height: 1.9em;
-    width: 1.9em;
+    height: 2em;
+    width: 2em;
     background-color: black;
     border-radius: 50%;
 }
 
 .select {
     display: block;
-    font-size: 0.6em;
+    font-size: 0.5em;
     font-family: sans-serif;
     font-weight: 700;
     color: var(--black);
@@ -154,6 +154,6 @@ form [type=radio]:checked+div#black {
 
 
 form input[type='submit'] {
-    font-size: 0.6em;
+    font-size: 0.5em;
     height: 1.8em;
 }

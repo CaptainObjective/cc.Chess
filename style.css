@@ -27,22 +27,22 @@ html {
     display: grid;
     grid-template-rows: repeat(8, 1fr);
     grid-template-columns: repeat(8, 1fr);
-    width: 80vh;
-    height: 80vh;
+    min-width: 80vh;
+    min-height: 80vh;
 }
-@media (max-width: 900px){
+@media (max-width: 900px) and (orientation: portrait) {
     #board {
         transform: scale(0.8);
     }
 }
 
-@media (max-width: 750px){
+@media (max-width: 750px) and (orientation: portrait) {
     #board {
         transform: scale(0.7);
     }
 }
 
-@media (max-width: 460px){
+@media (max-width: 460px) and (orientation: portrait) {
     #board {
         transform: scale(0.6);
     }
