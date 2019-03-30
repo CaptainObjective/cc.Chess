@@ -20,6 +20,7 @@ const changePlayer = {
 }
 
 const checkWinner = () => {
+    // result("black");
     let helMoves = [];
     if(changePlayer.turn =='white'){ //sprawdza po wykananiu ruchu przez bialego
         walkThroughTheBoard((box) => {
