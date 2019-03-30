@@ -5,17 +5,18 @@
     --fancy: rgba(235, 158, 158, 0.507);
 }
 
-.overlay {
-    z-index: 1;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.overlay{
+z-index: 1;
+position: fixed;
+width: 100vw;
+height: 100vh;
+top: 0;
+left: 0;
+background-color: rgba(0, 0, 0, 0.6);
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 /* form container*/
@@ -25,7 +26,7 @@
     width: 50vh;
     height: 50vh;
     background-color: whitesmoke;
-    border-radius: 10%;
+    border-radius: 20%;
 }
 
 /* form body */
